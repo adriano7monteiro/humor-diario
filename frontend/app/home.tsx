@@ -167,7 +167,7 @@ export default function HomeScreen() {
                 </View>
                 <View style={styles.progressCardContent}>
                   <Text style={styles.actionTitle}>Progresso Emocional</Text>
-                  <Text style={styles.actionSubtitle}>Histórico de humor</Text>
+                  <Text style={styles.actionSubtitle}>Veja seu histórico dos últimos 7 dias</Text>
                 </View>
               </View>
             </TouchableOpacity>
