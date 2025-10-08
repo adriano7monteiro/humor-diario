@@ -166,7 +166,7 @@ export default function HomeScreen() {
                   <Ionicons name="trending-up" size={28} color="#EF4444" />
                 </View>
                 <View style={styles.progressCardContent}>
-                  <Text style={styles.actionTitle}>Progresso Emocional</Text>
+                  <Text style={styles.actionTitle}>Progresso de Humor</Text>
                   <Text style={styles.actionSubtitle}>Veja seu histórico dos últimos 7 dias</Text>
                 </View>
               </View>
