@@ -120,7 +120,8 @@ export default function HomeScreen() {
         </TouchableOpacity>
       )}
 
-      <View style={styles.content}>
+      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+        <View style={styles.contentInner}>
         {/* Quick Actions Grid */}
         <View style={styles.quickActionsContainer}>
           <Text style={styles.sectionTitle}>Ações Rápidas</Text>
