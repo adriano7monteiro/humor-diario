@@ -2139,24 +2139,36 @@ async def create_reminder(
 ):
     """Create a new reminder"""
     try:
-        reminder_dict = {
-            "id": str(uuid.uuid4()),
+        now = datetime.utcnow()
+        reminder_id = str(uuid.uuid4())
+        
+        # Create document to insert
+        db_document = {
+            "id": reminder_id,
             "user_id": current_user.id,
             "type": reminder.type.value,
             "title": reminder.title,
             "time": reminder.time,
             "enabled": reminder.enabled,
             "days": reminder.days,
-            "created_at": datetime.utcnow().isoformat(),
-            "updated_at": datetime.utcnow().isoformat()
+            "created_at": now,
+            "updated_at": now
         }
         
-        await db.user_reminders.insert_one(reminder_dict.copy())
+        await db.user_reminders.insert_one(db_document)
         
-        # Remove MongoDB _id before returning
-        reminder_dict.pop("_id", None)
-        
-        return reminder_dict
+        # Return clean response without MongoDB _id
+        return {
+            "id": reminder_id,
+            "user_id": current_user.id,
+            "type": reminder.type.value,
+            "title": reminder.title,
+            "time": reminder.time,
+            "enabled": reminder.enabled,
+            "days": reminder.days,
+            "created_at": now.isoformat(),
+            "updated_at": now.isoformat()
+        }
         
     except Exception as e:
         logger.error(f"Error creating reminder: {e}")
