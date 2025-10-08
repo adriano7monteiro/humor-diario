@@ -227,7 +227,7 @@ export default function ProgressScreen() {
               <Ionicons name="flame" size={24} color="#EF4444" />
             </View>
             <Text style={styles.statNumber}>{userStats.total_xp}</Text>
-            <Text style={styles.statLabel}>XP Total</Text>
+            <Text style={styles.statLabel}>⭐ Total</Text>
           </View>
           
           <View style={styles.statCard}>
