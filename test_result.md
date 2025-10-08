@@ -101,3 +101,116 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+user_problem_statement: "Test the newly implemented Stripe payment integration endpoints"
+
+backend:
+  - task: "GET /api/payments/packages endpoint"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Successfully retrieves 4 ebook packages with correct structure (id, title, price, category, currency). No authentication required as expected."
+
+  - task: "POST /api/payments/checkout/session endpoint"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: false
+          agent: "testing"
+          comment: "Initial test failed due to duplicate PaymentTransaction model causing validation errors"
+        - working: true
+          agent: "testing"
+          comment: "Fixed duplicate PaymentTransaction model import. Endpoint now creates Stripe checkout sessions successfully. Requires authentication. Properly validates ebook_id and rejects invalid ones with 400 error."
+
+  - task: "GET /api/payments/checkout/status/{session_id} endpoint"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: false
+          agent: "testing"
+          comment: "Initial test failed due to PaymentTransaction model validation issues"
+        - working: true
+          agent: "testing"
+          comment: "Fixed after resolving PaymentTransaction model conflicts. Endpoint retrieves payment status successfully. Requires authentication. Returns proper status fields (session_id, status, payment_status, amount_total, currency)."
+
+  - task: "POST /api/webhook/stripe endpoint"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Webhook endpoint processes requests successfully. Handles Stripe webhook events properly. No authentication required as expected for webhook endpoints."
+
+  - task: "Authentication requirements for payment endpoints"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Protected endpoints (checkout/session and checkout/status) correctly require Bearer token authentication. Return 403 Forbidden when no auth provided."
+
+  - task: "Error handling and validation"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Proper error handling implemented. Invalid ebook_id returns 400 with 'Ebook inválido' message. Non-existent sessions return 404. Stripe integration errors handled gracefully."
+
+  - task: "EBOOK_PACKAGES data structure"
+    implemented: true
+    working: true
+    file: "/app/backend/models/payments.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "EBOOK_PACKAGES contains 4 packages: mindfulness (R$29.90), breathing (R$19.90), gratitude (R$24.90), stress (R$34.90). All packages have proper structure with id, title, price, category, currency fields."
+
+frontend:
+  # No frontend testing performed as per instructions
+
+metadata:
+  created_by: "testing_agent"
+  version: "1.0"
+  test_sequence: 1
+  run_ui: false
+
+test_plan:
+  current_focus:
+    - "Stripe payment integration endpoints"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+agent_communication:
+    - agent: "testing"
+      message: "Completed comprehensive testing of Stripe payment integration. Fixed critical PaymentTransaction model conflict that was causing 500 errors. All 4 payment endpoints now working correctly with proper authentication, validation, and error handling. Integration with emergentintegrations.payments.stripe.checkout library is functional. Ready for production use with real Stripe keys."
