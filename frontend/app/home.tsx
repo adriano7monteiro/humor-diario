@@ -214,7 +214,7 @@ export default function HomeScreen() {
 
           <View style={styles.featureItem}>
             <Ionicons name="trending-up" size={20} color="#EF4444" />
-            <Text style={styles.featureText}>Progresso emocional</Text>
+            <Text style={styles.featureText}>Progresso de humor</Text>
             <View style={[styles.featureBadge, { backgroundColor: '#EF4444' }]}>
               <Text style={styles.featureBadgeText}>✓</Text>
             </View>
