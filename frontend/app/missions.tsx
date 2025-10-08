@@ -248,7 +248,7 @@ export default function MissionsScreen() {
                   <View key={mission.id} style={styles.missionCard}>
                     <View style={styles.missionHeader}>
                       <View style={styles.missionIcon}>
-                        <Text style={styles.missionEmoji}>{mission.icon}</Text>
+                        <Ionicons name={mission.icon as any} size={24} color="#4F46E5" />
                       </View>
                       <View style={styles.missionInfo}>
                         <Text style={styles.missionTitle}>{mission.title}</Text>
