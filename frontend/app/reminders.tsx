@@ -56,7 +56,18 @@ export default function RemindersScreen() {
 
   useEffect(() => {
     loadReminders();
+    requestNotificationPermissions();
   }, []);
+
+  const requestNotificationPermissions = async () => {
+    const hasPermission = await NotificationService.requestPermissions();
+    if (!hasPermission) {
+      Alert.alert(
+        'Permissão Necessária',
+        'Para receber lembretes, você precisa permitir notificações. Ative nas configurações do seu dispositivo.'
+      );
+    }
+  };
 
   const loadReminders = async () => {
     try {
