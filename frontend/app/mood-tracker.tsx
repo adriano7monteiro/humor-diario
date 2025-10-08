@@ -101,8 +101,14 @@ export default function MoodTrackerScreen() {
         headers: { Authorization: `Bearer ${token}` }
       });
 
+      // Stop loading before showing alert
+      setLoading(false);
+
+      console.log('🔍 Mood saved. Selected mood level:', selectedMood);
+
       // Check if user is feeling sad (level 1 or 2) and offer therapy chat
       if (selectedMood === 1 || selectedMood === 2) {
+        console.log('💙 User is sad, showing Dr. Ana alert');
         Alert.alert(
           'Percebemos que você não está muito bem 💙',
           'Gostaria de conversar com a Dr. Ana, nossa terapeuta virtual? Ela pode ajudar você a se sentir melhor.',
@@ -120,13 +126,13 @@ export default function MoodTrackerScreen() {
           { cancelable: false }
         );
       } else {
+        console.log('😊 User mood is positive, redirecting to home');
         // Redirect immediately after successful save for positive moods
         router.replace('/home');
       }
     } catch (error: any) {
       console.log('Error saving mood:', error);
       Alert.alert('Erro', 'Não foi possível salvar o humor. Tente novamente.');
-    } finally {
       setLoading(false);
     }
   };
