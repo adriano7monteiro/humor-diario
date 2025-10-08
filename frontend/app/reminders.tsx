@@ -120,6 +120,8 @@ export default function RemindersScreen() {
           onPress: async () => {
             try {
               await api.delete(`/api/reminders/${id}`);
+              // Cancel all notifications for this reminder
+              await NotificationService.cancelReminderNotifications(id);
               setReminders(prev => prev.filter(r => r.id !== id));
             } catch (error) {
               Alert.alert('Erro', 'Erro ao deletar lembrete');
