@@ -21,6 +21,10 @@ interface UserStats {
   current_level: number;
   xp_for_next_level: number;
   xp_progress: number;
+  level_name: string;
+  level_emoji: string;
+  level_description: string;
+  level_tier: string;
 }
 
 // For web, always use relative URLs that proxy through Expo
