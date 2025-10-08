@@ -78,16 +78,17 @@ export default function GratitudeScreen() {
         reflection: reflection.trim() || null
       });
 
-      Alert.alert(
-        'Gratidão registrada! 🌟',
-        'Você ganhou 10 estrelas por praticar gratidão!',
-        [{ text: 'OK', onPress: () => router.back() }]
-      );
-    } catch (error: any) {
-      Alert.alert('Erro', error.response?.data?.detail || 'Erro ao salvar');
-    } finally {
       setLoading(false);
+      setShowSuccessModal(true);
+    } catch (error: any) {
+      setLoading(false);
+      Alert.alert('Erro', error.response?.data?.detail || 'Erro ao salvar');
     }
+  };
+
+  const handleCloseSuccessModal = () => {
+    setShowSuccessModal(false);
+    router.push('/home');
   };
 
   const formatDate = (dateStr: string) => {
