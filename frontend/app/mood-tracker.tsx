@@ -45,6 +45,7 @@ export default function MoodTrackerScreen() {
   const [loading, setLoading] = useState(false);
   const [todayMood, setTodayMood] = useState<any>(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [showDrAnaModal, setShowDrAnaModal] = useState(false);
   
   const { user } = useAuth();
   const router = useRouter();
