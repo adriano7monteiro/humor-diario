@@ -240,7 +240,7 @@ export default function MissionsScreen() {
             <View style={styles.missionsContainer}>
               <Text style={styles.sectionTitle}>Suas Missões de Hoje</Text>
               <Text style={styles.sectionSubtitle}>
-                Complete para ganhar XP e subir de nível
+                Complete para ganhar ⭐ Estrelas e subir de nível
               </Text>
 
               {missions.length > 0 ? (
