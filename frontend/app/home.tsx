@@ -164,13 +164,13 @@ export default function HomeScreen() {
 
             <TouchableOpacity 
               style={styles.actionCard}
-              onPress={navigateToProgress}
+              onPress={navigateToGratitude}
             >
-              <View style={[styles.actionIconContainer, { backgroundColor: '#DBEAFE' }]}>
-                <Ionicons name="analytics" size={28} color="#3B82F6" />
+              <View style={[styles.actionIconContainer, { backgroundColor: '#FEF3C7' }]}>
+                <Ionicons name="heart" size={28} color="#F59E0B" />
               </View>
-              <Text style={styles.actionTitle}>Meu Progresso</Text>
-              <Text style={styles.actionSubtitle}>Veja suas ⭐ Estrelas e nível</Text>
+              <Text style={styles.actionTitle}>Diário de Gratidão</Text>
+              <Text style={styles.actionSubtitle}>+10 ⭐ por dia</Text>
             </TouchableOpacity>
           </View>
           
