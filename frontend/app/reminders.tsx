@@ -118,10 +118,14 @@ export default function RemindersScreen() {
         enabled: true,
         days: [0, 1, 2, 3, 4, 5, 6],
       });
-      Alert.alert('Sucesso!', 'Lembrete criado');
+      setShowSuccessModal(true);
     } catch (error) {
       Alert.alert('Erro', 'Erro ao criar lembrete');
     }
+  };
+
+  const handleCloseSuccessModal = () => {
+    setShowSuccessModal(false);
   };
 
   const toggleDay = (day: number) => {
