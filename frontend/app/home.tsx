@@ -198,7 +198,7 @@ export default function HomeScreen() {
 
           <View style={styles.featureItem}>
             <Ionicons name="trophy" size={20} color="#F59E0B" />
-            <Text style={styles.featureText}>Missões diárias com XP</Text>
+            <Text style={styles.featureText}>Missões diárias com ⭐ Estrelas</Text>
             <View style={[styles.featureBadge, { backgroundColor: '#F59E0B' }]}>
               <Text style={styles.featureBadgeText}>✓</Text>
             </View>
