@@ -1822,9 +1822,6 @@ async def get_daily_missions_for_user(user_id: str, user_level: int = 1) -> List
     
     return missions
 
-# Include the router in the main app
-app.include_router(api_router)
-
 @app.on_event("startup")
 async def startup_event():
     """Initialize app on startup"""
