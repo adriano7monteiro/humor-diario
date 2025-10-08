@@ -2226,6 +2226,191 @@ async def delete_reminder(
         logger.error(f"Error deleting reminder: {e}")
         raise HTTPException(status_code=500, detail="Erro ao deletar lembrete")
 
+# ============================================
+# STRIPE PAYMENT ENDPOINTS
+# ============================================
+
+class CheckoutRequest(BaseModel):
+    ebook_id: str
+    origin_url: str
+
+@api_router.post("/payments/checkout/session")
+async def create_checkout_session(
+    request: CheckoutRequest,
+    current_user: User = Depends(get_current_user)
+):
+    """Create Stripe checkout session for ebook purchase"""
+    try:
+        # Validate ebook package
+        if request.ebook_id not in EBOOK_PACKAGES:
+            raise HTTPException(status_code=400, detail="Ebook inválido")
+        
+        package = EBOOK_PACKAGES[request.ebook_id]
+        
+        # Initialize Stripe checkout
+        webhook_url = f"{request.origin_url}/api/webhook/stripe"
+        stripe_checkout = StripeCheckout(api_key=STRIPE_API_KEY, webhook_url=webhook_url)
+        
+        # Create checkout session URLs
+        success_url = f"{request.origin_url}/store/success?session_id={{CHECKOUT_SESSION_ID}}"
+        cancel_url = f"{request.origin_url}/store"
+        
+        # Create checkout session request
+        checkout_request = CheckoutSessionRequest(
+            amount=package.price,
+            currency=package.currency,
+            success_url=success_url,
+            cancel_url=cancel_url,
+            metadata={
+                "ebook_id": package.id,
+                "ebook_title": package.title,
+                "user_id": current_user.id,
+                "user_email": current_user.email
+            }
+        )
+        
+        # Create session with Stripe
+        session = await stripe_checkout.create_checkout_session(checkout_request)
+        
+        # Create payment transaction record
+        transaction = PaymentTransaction(
+            user_id=current_user.id,
+            session_id=session.session_id,
+            amount=package.price,
+            currency=package.currency,
+            payment_status="pending",
+            status="initiated",
+            ebook_id=package.id,
+            ebook_title=package.title,
+            metadata={
+                "user_email": current_user.email,
+                "ebook_category": package.category
+            }
+        )
+        
+        # Insert transaction into database
+        await db.payment_transactions.insert_one(transaction.dict())
+        
+        return {
+            "url": session.url,
+            "session_id": session.session_id
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error creating checkout session: {e}")
+        raise HTTPException(status_code=500, detail="Erro ao criar sessão de pagamento")
+
+@api_router.get("/payments/checkout/status/{session_id}")
+async def get_checkout_status(
+    session_id: str,
+    current_user: User = Depends(get_current_user)
+):
+    """Get payment status for checkout session"""
+    try:
+        # Initialize Stripe checkout
+        stripe_checkout = StripeCheckout(api_key=STRIPE_API_KEY, webhook_url="")
+        
+        # Get status from Stripe
+        status_response = await stripe_checkout.get_checkout_status(session_id)
+        
+        # Find transaction in database
+        transaction = await db.payment_transactions.find_one({"session_id": session_id})
+        if not transaction:
+            raise HTTPException(status_code=404, detail="Transação não encontrada")
+        
+        # Update transaction status if payment is complete
+        if status_response.payment_status == "paid" and transaction["payment_status"] != "paid":
+            await db.payment_transactions.update_one(
+                {"session_id": session_id},
+                {
+                    "$set": {
+                        "payment_status": "paid",
+                        "status": "completed",
+                        "updated_at": datetime.utcnow()
+                    }
+                }
+            )
+            
+            # TODO: Add ebook to user's library here
+            # await add_ebook_to_user_library(current_user.id, transaction["ebook_id"])
+        
+        elif status_response.status == "expired" and transaction["status"] != "expired":
+            await db.payment_transactions.update_one(
+                {"session_id": session_id},
+                {
+                    "$set": {
+                        "payment_status": "expired",
+                        "status": "expired",
+                        "updated_at": datetime.utcnow()
+                    }
+                }
+            )
+        
+        return {
+            "session_id": session_id,
+            "status": status_response.status,
+            "payment_status": status_response.payment_status,
+            "amount_total": status_response.amount_total,
+            "currency": status_response.currency
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error getting checkout status: {e}")
+        raise HTTPException(status_code=500, detail="Erro ao verificar status do pagamento")
+
+@api_router.post("/webhook/stripe")
+async def stripe_webhook(request: Request):
+    """Handle Stripe webhooks"""
+    try:
+        # Get request body and headers
+        body = await request.body()
+        signature = request.headers.get("Stripe-Signature")
+        
+        # Initialize Stripe checkout
+        stripe_checkout = StripeCheckout(api_key=STRIPE_API_KEY, webhook_url="")
+        
+        # Handle webhook
+        webhook_response = await stripe_checkout.handle_webhook(body, signature)
+        
+        # Update transaction based on webhook event
+        if webhook_response.event_type == "checkout.session.completed":
+            await db.payment_transactions.update_one(
+                {"session_id": webhook_response.session_id},
+                {
+                    "$set": {
+                        "payment_status": webhook_response.payment_status,
+                        "status": "completed" if webhook_response.payment_status == "paid" else "failed",
+                        "updated_at": datetime.utcnow()
+                    }
+                }
+            )
+        
+        return {"status": "success"}
+        
+    except Exception as e:
+        logger.error(f"Error handling Stripe webhook: {e}")
+        raise HTTPException(status_code=500, detail="Erro ao processar webhook")
+
+@api_router.get("/payments/packages")
+async def get_ebook_packages():
+    """Get available ebook packages"""
+    return {
+        "packages": [
+            {
+                "id": package.id,
+                "title": package.title,
+                "price": package.price,
+                "category": package.category,
+                "currency": package.currency
+            }
+            for package in EBOOK_PACKAGES.values()
+        ]
+    }
+
 # Include the router in the main app (MUST be after all endpoint definitions)
 app.include_router(api_router)
 
