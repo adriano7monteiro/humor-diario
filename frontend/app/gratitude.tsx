@@ -34,6 +34,7 @@ export default function GratitudeScreen() {
   const [todayEntry, setTodayEntry] = useState<GratitudeEntry | null>(null);
   const [history, setHistory] = useState<GratitudeEntry[]>([]);
   const [showHistory, setShowHistory] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   useEffect(() => {
     loadTodayEntry();
