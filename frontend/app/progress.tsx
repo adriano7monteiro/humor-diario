@@ -214,7 +214,7 @@ export default function ProgressScreen() {
               </View>
               
               <Text style={styles.nextLevelText}>
-                Próximo nível: {getXPForNextLevel()} XP
+                Próximo nível: {getXPForNextLevel()} ⭐ Estrelas
               </Text>
             </View>
           </View>
