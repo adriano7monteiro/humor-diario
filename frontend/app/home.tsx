@@ -56,6 +56,22 @@ export default function HomeScreen() {
     router.push('/profile');
   };
 
+  const navigateToGratitude = () => {
+    router.push('/gratitude');
+  };
+
+  const navigateToBreathing = () => {
+    router.push('/breathing');
+  };
+
+  const navigateToReminders = () => {
+    router.push('/reminders');
+  };
+
+  const navigateToSOS = () => {
+    router.push('/sos');
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
