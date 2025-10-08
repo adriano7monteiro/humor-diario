@@ -255,7 +255,7 @@ export default function MissionsScreen() {
                         <Text style={styles.missionDescription}>{mission.description}</Text>
                       </View>
                       <View style={styles.xpBadge}>
-                        <Text style={styles.xpText}>⭐ +{mission.xp}</Text>
+                        <Text style={styles.xpText}>⭐ +{mission.xp_reward}</Text>
                       </View>
                     </View>
 
