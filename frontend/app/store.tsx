@@ -90,26 +90,55 @@ export default function StoreScreen() {
     setShowPurchaseModal(true);
   };
 
-  const confirmPurchase = () => {
+  const confirmPurchase = async () => {
     if (!selectedEbook) return;
     
-    Alert.alert(
-      'Compra Realizada! 🎉',
-      `Parabéns! Você adquiriu "${selectedEbook.title}". O ebook foi adicionado à sua biblioteca e você receberá um email com o link para download.`,
-      [
-        {
-          text: 'Ver na Biblioteca',
-          onPress: () => {
-            setShowPurchaseModal(false);
-            router.push('/library');
-          }
+    try {
+      // Get current origin URL
+      const originUrl = typeof window !== 'undefined' ? window.location.origin : '';
+      
+      // Call backend to create Stripe checkout session
+      const response = await fetch('/api/payments/checkout/session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${await import('@react-native-async-storage/async-storage').then(module => module.default.getItem('@token'))}`,
         },
-        {
-          text: 'Continuar Comprando',
-          onPress: () => setShowPurchaseModal(false)
+        body: JSON.stringify({
+          ebook_id: selectedEbook.id,
+          origin_url: originUrl
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create checkout session');
+      }
+
+      const data = await response.json();
+      
+      // Close modal and redirect to Stripe Checkout
+      setShowPurchaseModal(false);
+      
+      if (data.url) {
+        // In web, redirect directly
+        if (typeof window !== 'undefined') {
+          window.location.href = data.url;
+        } else {
+          // In mobile, use Linking
+          Linking.openURL(data.url);
         }
-      ]
-    );
+      } else {
+        throw new Error('No checkout URL received');
+      }
+
+    } catch (error: any) {
+      console.error('Payment error:', error);
+      Alert.alert(
+        'Erro no Pagamento',
+        'Não foi possível processar o pagamento. Tente novamente.',
+        [{ text: 'OK' }]
+      );
+    }
   };
 
   const openPreview = (ebook: Ebook) => {
