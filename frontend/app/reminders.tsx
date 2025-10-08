@@ -309,6 +309,37 @@ export default function RemindersScreen() {
           </View>
         </View>
       </Modal>
+
+      {/* Success Modal */}
+      <Modal
+        visible={showSuccessModal}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={handleCloseSuccessModal}
+      >
+        <View style={styles.successModalOverlay}>
+          <View style={styles.successModalContainer}>
+            <View style={styles.successModalIconContainer}>
+              <Ionicons name="checkmark-circle" size={80} color="#22C55E" />
+            </View>
+            
+            <Text style={styles.successModalTitle}>
+              Lembrete Criado! ⏰
+            </Text>
+            
+            <Text style={styles.successModalMessage}>
+              Seu lembrete foi configurado com sucesso!
+            </Text>
+
+            <TouchableOpacity
+              style={styles.successModalButton}
+              onPress={handleCloseSuccessModal}
+            >
+              <Text style={styles.successModalButtonText}>OK</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
