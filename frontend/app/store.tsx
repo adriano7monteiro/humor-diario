@@ -362,21 +362,24 @@ export default function StoreScreen() {
                 <Text style={styles.modalPrice}>R$ {selectedEbook.price.toFixed(2)}</Text>
                 
                 <View style={styles.paymentMethods}>
-                  <Text style={styles.paymentTitle}>Métodos de Pagamento:</Text>
-                  <View style={styles.paymentOptions}>
-                    <TouchableOpacity style={styles.paymentOption}>
-                      <Ionicons name="card" size={20} color="#4F46E5" />
-                      <Text style={styles.paymentText}>Cartão de Crédito</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.paymentOption}>
-                      <Ionicons name="logo-paypal" size={20} color="#4F46E5" />
-                      <Text style={styles.paymentText}>PayPal</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.paymentOption}>
-                      <Ionicons name="qr-code" size={20} color="#4F46E5" />
-                      <Text style={styles.paymentText}>PIX</Text>
-                    </TouchableOpacity>
+                  <Text style={styles.paymentTitle}>Métodos de Pagamento Disponíveis:</Text>
+                  <View style={styles.paymentInfo}>
+                    <View style={styles.paymentInfoItem}>
+                      <Ionicons name="card" size={20} color="#22C55E" />
+                      <Text style={styles.paymentInfoText}>✓ Cartão de Crédito/Débito</Text>
+                    </View>
+                    <View style={styles.paymentInfoItem}>
+                      <Ionicons name="qr-code" size={20} color="#22C55E" />
+                      <Text style={styles.paymentInfoText}>✓ PIX (Instantâneo)</Text>
+                    </View>
+                    <View style={styles.paymentInfoItem}>
+                      <Ionicons name="shield-checkmark" size={20} color="#22C55E" />
+                      <Text style={styles.paymentInfoText}>✓ Processamento Seguro Stripe</Text>
+                    </View>
                   </View>
+                  <Text style={styles.paymentNote}>
+                    Você será redirecionado para o checkout seguro do Stripe onde poderá escolher seu método de pagamento preferido.
+                  </Text>
                 </View>
               </>
             )}
