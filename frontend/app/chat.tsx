@@ -167,6 +167,74 @@ export default function ChatScreen() {
     }
   };
 
+  const sendAutomaticMessage = async (messageText: string) => {
+    if (!messageText.trim() || sendingMessage) return;
+
+    setSendingMessage(true);
+
+    // Add user message to UI immediately
+    const tempUserMessage: Message = {
+      id: 'temp-' + Date.now(),
+      conversation_id: currentConversationId || '',
+      role: 'user',
+      content: messageText,
+      timestamp: new Date().toISOString()
+    };
+
+    setMessages(prev => [...prev, tempUserMessage]);
+
+    // Scroll to bottom
+    setTimeout(() => {
+      scrollViewRef.current?.scrollToEnd({ animated: true });
+    }, 100);
+
+    try {
+      const response = await api.post('/api/chat/send', {
+        message: messageText,
+        conversation_id: currentConversationId
+      });
+
+      // Remove temp message and add both user and AI messages
+      setMessages(prev => prev.filter(m => m.id !== tempUserMessage.id));
+
+      const userMsg: Message = {
+        id: response.data.message_id + '-user',
+        conversation_id: response.data.conversation_id,
+        role: 'user',
+        content: messageText,
+        timestamp: response.data.timestamp
+      };
+
+      const aiMsg: Message = {
+        id: response.data.message_id,
+        conversation_id: response.data.conversation_id,
+        role: 'assistant',
+        content: response.data.message,
+        timestamp: response.data.timestamp
+      };
+
+      setMessages(prev => [...prev, userMsg, aiMsg]);
+      setCurrentConversationId(response.data.conversation_id);
+
+      // Reload conversations to update list
+      if (!currentConversationId) {
+        loadConversations();
+      }
+
+      // Scroll to bottom
+      setTimeout(() => {
+        scrollViewRef.current?.scrollToEnd({ animated: true });
+      }, 100);
+
+    } catch (error: any) {
+      console.error('Error sending automatic message:', error);
+      // Remove temp message on error
+      setMessages(prev => prev.filter(m => m.id !== tempUserMessage.id));
+    } finally {
+      setSendingMessage(false);
+    }
+  };
+
   const startNewConversation = () => {
     Alert.alert(
       'Nova Conversa',
