@@ -2122,6 +2122,10 @@ async def get_reminders(current_user: User = Depends(get_current_user)):
             {"user_id": current_user.id}
         ).sort("created_at", -1).to_list(length=100)
         
+        # Remove MongoDB _id field
+        for reminder in reminders:
+            reminder.pop("_id", None)
+        
         return reminders
         
     except Exception as e:
