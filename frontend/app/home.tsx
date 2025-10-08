@@ -243,17 +243,6 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        <View style={styles.card}>
-          <View style={styles.cardHeader}>
-            <Ionicons name="heart" size={24} color="#EF4444" />
-            <Text style={styles.cardTitle}>Bem-vindo ao seu app de saúde mental</Text>
-          </View>
-          <Text style={styles.cardDescription}>
-            Cuide da sua saúde mental todos os dias. Registre seu humor, complete missões 
-            diárias e acompanhe seu progresso de autocuidado.
-          </Text>
-        </View>
-
         <View style={styles.featuresContainer}>
           <Text style={styles.featuresTitle}>Funcionalidades disponíveis:</Text>
           
