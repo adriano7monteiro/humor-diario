@@ -441,7 +441,7 @@ export default function ProfileScreen() {
                 <Ionicons name="trending-up" size={24} color="#EF4444" />
               </View>
               <View style={styles.actionTextContainer}>
-                <Text style={styles.actionTitle}>Progresso Emocional</Text>
+                <Text style={styles.actionTitle}>Progresso de Humor</Text>
                 <Text style={styles.actionSubtitle}>Histórico do seu humor</Text>
               </View>
               <Ionicons name="chevron-forward" size={20} color="#9CA3AF" />
