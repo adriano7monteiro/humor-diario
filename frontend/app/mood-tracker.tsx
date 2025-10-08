@@ -252,6 +252,56 @@ export default function MoodTrackerScreen() {
           </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>
+
+      {/* Dr. Ana Modal */}
+      <Modal
+        visible={showDrAnaModal}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => {
+          setShowDrAnaModal(false);
+          router.replace('/home');
+        }}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalIconContainer}>
+              <Ionicons name="heart" size={48} color="#4F46E5" />
+            </View>
+            
+            <Text style={styles.modalTitle}>
+              Percebemos que você não está muito bem 💙
+            </Text>
+            
+            <Text style={styles.modalMessage}>
+              Gostaria de conversar com a Dr. Ana, nossa terapeuta virtual? 
+              Ela pode ajudar você a se sentir melhor.
+            </Text>
+
+            <View style={styles.modalButtons}>
+              <TouchableOpacity
+                style={[styles.modalButton, styles.modalButtonSecondary]}
+                onPress={() => {
+                  setShowDrAnaModal(false);
+                  router.replace('/home');
+                }}
+              >
+                <Text style={styles.modalButtonSecondaryText}>Agora não</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[styles.modalButton, styles.modalButtonPrimary]}
+                onPress={() => {
+                  setShowDrAnaModal(false);
+                  router.replace('/chat');
+                }}
+              >
+                <Text style={styles.modalButtonPrimaryText}>Sim, quero conversar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SubscriptionGuard>
   );
 }
