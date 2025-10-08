@@ -254,6 +254,37 @@ export default function GratitudeScreen() {
           )}
         </ScrollView>
       </KeyboardAvoidingView>
+
+      {/* Success Modal */}
+      <Modal
+        visible={showSuccessModal}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={handleCloseSuccessModal}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalIconContainer}>
+              <Ionicons name="checkmark-circle" size={80} color="#22C55E" />
+            </View>
+            
+            <Text style={styles.modalTitle}>
+              Gratidão Registrada! 🌟
+            </Text>
+            
+            <Text style={styles.modalMessage}>
+              Você ganhou 10 estrelas por praticar gratidão!
+            </Text>
+
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={handleCloseSuccessModal}
+            >
+              <Text style={styles.modalButtonText}>OK</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
