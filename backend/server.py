@@ -511,17 +511,17 @@ async def get_week_mood(current_user: User = Depends(get_current_user)):
         for mood in mood_entries
     ]
 
-# Helper functions for gamification
+# Helper functions for gamification (Estrelas ⭐)
 def calculate_level_from_xp(xp: int) -> int:
-    """Calculate user level based on total XP - 100 XP per level"""
+    """Calculate user level based on total Stars - 100 Stars per level"""
     return (xp // 100) + 1
 
 def get_xp_for_level(level: int) -> int:
-    """Get minimum XP required for a level"""
+    """Get minimum Stars required for a level"""
     return (level - 1) * 100
 
 def get_xp_for_next_level(current_level: int) -> int:
-    """Get XP required for next level"""
+    """Get Stars required for next level"""
     return current_level * 100
 
 def get_level_info(level: int) -> dict:
