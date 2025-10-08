@@ -44,6 +44,7 @@ export default function RemindersScreen() {
   const [reminders, setReminders] = useState<Reminder[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [newReminder, setNewReminder] = useState<Partial<Reminder>>({
     type: 'mood',
     title: '',
