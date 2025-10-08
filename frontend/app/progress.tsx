@@ -243,7 +243,7 @@ export default function ProgressScreen() {
               <Ionicons name="star" size={24} color="#F59E0B" />
             </View>
             <Text style={styles.statNumber}>{100 - getXPInCurrentLevel()}</Text>
-            <Text style={styles.statLabel}>XP para próximo</Text>
+            <Text style={styles.statLabel}>⭐ Faltam</Text>
           </View>
         </View>
 
