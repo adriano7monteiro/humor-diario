@@ -19,7 +19,6 @@ from models.chat import ChatMessage, ChatConversation, SendMessageRequest, ChatR
 from models.missions import Mission, MissionCategory, MissionDifficulty, DailyMissionSet, UserMissionProgress
 from models.payments import PaymentTransaction, EbookPackage, EBOOK_PACKAGES
 from enum import Enum
-from emergentintegrations.stripe import StripeCheckout, CheckoutSessionRequest
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
