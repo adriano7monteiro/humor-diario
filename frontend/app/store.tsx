@@ -56,7 +56,7 @@ const ebooks: Ebook[] = [
     preview: '/assets/ebook-respiracao-preview.pdf'
   },
   {
-    id: '3',
+    id: 'gratitude',
     title: 'Diário da Gratidão: 30 Dias de Transformação',
     description: 'Transforme sua perspectiva de vida com exercícios práticos de gratidão e reflexão.',
     price: 24.90,
