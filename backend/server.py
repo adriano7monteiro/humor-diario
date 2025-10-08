@@ -694,11 +694,18 @@ async def get_user_stats(current_user: User = Depends(get_current_user)):
     xp_current_level = get_xp_for_level(current_level)
     xp_progress = user_stats["total_xp"] - xp_current_level
     
+    # Get level info
+    level_info = get_level_info(current_level)
+    
     return UserStatsResponse(
         total_xp=user_stats["total_xp"],
         current_level=current_level,
         xp_for_next_level=xp_for_next - user_stats["total_xp"],
-        xp_progress=xp_progress
+        xp_progress=xp_progress,
+        level_name=level_info["name"],
+        level_emoji=level_info["emoji"],
+        level_description=level_info["description"],
+        level_tier=level_info["tier"]
     )
 
 async def update_user_stats(user_id: str, xp_to_add: int):
