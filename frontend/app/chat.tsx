@@ -48,6 +48,7 @@ export default function ChatScreen() {
   const [sendingMessage, setSendingMessage] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [hasProcessedMood, setHasProcessedMood] = useState(false);
+  const [hasProcessedSOS, setHasProcessedSOS] = useState(false);
 
   useEffect(() => {
     loadConversations();
@@ -67,6 +68,19 @@ export default function ChatScreen() {
       }, 500);
     }
   }, [params, hasProcessedMood, currentConversationId]);
+
+  // Process SOS context and send initial message
+  useEffect(() => {
+    if (params.fromSOS === 'true' && !hasProcessedSOS && currentConversationId) {
+      setHasProcessedSOS(true);
+      const initialMessage = `Dr. Ana, estou passando por um momento muito difícil e preciso de apoio. Acessei o botão SOS porque estou me sentindo em crise. Pode me ajudar?`;
+      
+      // Send the initial message automatically
+      setTimeout(() => {
+        sendAutomaticMessage(initialMessage);
+      }, 500);
+    }
+  }, [params, hasProcessedSOS, currentConversationId]);
 
   const loadConversations = async () => {
     try {
