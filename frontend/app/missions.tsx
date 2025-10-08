@@ -183,7 +183,7 @@ export default function MissionsScreen() {
         });
       }
 
-      Alert.alert('Parabéns! 🎉', `Você ganhou ${response.data.xp_gained} XP!`);
+      Alert.alert('Parabéns! 🎉', `Você ganhou ${response.data.xp_gained} ⭐ Estrelas!`);
       
     } catch (error: any) {
       console.error('Error completing mission:', error);
