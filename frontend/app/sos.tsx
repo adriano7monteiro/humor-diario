@@ -70,7 +70,13 @@ export default function SOSScreen() {
   };
 
   const goToDrAna = () => {
-    router.push('/chat');
+    router.push({
+      pathname: '/chat',
+      params: {
+        fromSOS: 'true',
+        context: 'crisis_support'
+      }
+    });
   };
 
   const goToBreathing = () => {
