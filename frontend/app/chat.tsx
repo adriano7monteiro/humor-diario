@@ -71,16 +71,16 @@ export default function ChatScreen() {
 
   // Process SOS context and send initial message
   useEffect(() => {
-    if (params.fromSOS === 'true' && !hasProcessedSOS && currentConversationId) {
+    if (params.fromSOS === 'true' && !hasProcessedSOS) {
       setHasProcessedSOS(true);
       const initialMessage = `Dr. Ana, estou passando por um momento muito difícil e preciso de apoio. Acessei o botão SOS porque estou me sentindo em crise. Pode me ajudar?`;
       
-      // Send the initial message automatically
+      // Send the initial message automatically, even without existing conversation
       setTimeout(() => {
         sendAutomaticMessage(initialMessage);
-      }, 500);
+      }, 1500); // Wait a bit longer to ensure conversations are loaded
     }
-  }, [params, hasProcessedSOS, currentConversationId]);
+  }, [params, hasProcessedSOS]);
 
   const loadConversations = async () => {
     try {
