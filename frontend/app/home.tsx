@@ -141,7 +141,7 @@ export default function HomeScreen() {
                 <Ionicons name="trophy" size={28} color="#F59E0B" />
               </View>
               <Text style={styles.actionTitle}>Missões Diárias</Text>
-              <Text style={styles.actionSubtitle}>Ganhe XP cuidando de si</Text>
+              <Text style={styles.actionSubtitle}>Ganhe ⭐ Estrelas cuidando de si</Text>
             </TouchableOpacity>
 
             <TouchableOpacity 
