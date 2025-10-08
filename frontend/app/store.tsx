@@ -715,24 +715,26 @@ const styles = StyleSheet.create({
     color: '#1E293B',
     marginBottom: 12,
   },
-  paymentOptions: {
-    gap: 8,
+  paymentInfo: {
+    gap: 12,
+    marginBottom: 16,
   },
-  paymentOption: {
+  paymentInfoItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
-    backgroundColor: '#F8FAFC',
-    gap: 12,
+    gap: 8,
   },
-  paymentText: {
+  paymentInfoText: {
     fontSize: 14,
     fontWeight: '500',
     color: '#1E293B',
+  },
+  paymentNote: {
+    fontSize: 12,
+    color: '#64748B',
+    lineHeight: 18,
+    textAlign: 'center',
+    fontStyle: 'italic',
   },
   modalActions: {
     flexDirection: 'row',
