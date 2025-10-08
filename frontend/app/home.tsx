@@ -242,64 +242,6 @@ export default function HomeScreen() {
             </TouchableOpacity>
           </View>
         </View>
-
-        <View style={styles.featuresContainer}>
-          <Text style={styles.featuresTitle}>Funcionalidades disponíveis:</Text>
-          
-          <View style={styles.featureItem}>
-            <Ionicons name="happy" size={20} color="#4F46E5" />
-            <Text style={styles.featureText}>Registro de humor diário</Text>
-            <View style={styles.featureBadge}>
-              <Text style={styles.featureBadgeText}>✓</Text>
-            </View>
-          </View>
-
-          <View style={styles.featureItem}>
-            <Ionicons name="trophy" size={20} color="#F59E0B" />
-            <Text style={styles.featureText}>Missões diárias com ⭐ Estrelas</Text>
-            <View style={[styles.featureBadge, { backgroundColor: '#F59E0B' }]}>
-              <Text style={styles.featureBadgeText}>✓</Text>
-            </View>
-          </View>
-
-          <View style={styles.featureItem}>
-            <Ionicons name="analytics" size={20} color="#3B82F6" />
-            <Text style={styles.featureText}>Sistema de níveis e ⭐ Estrelas</Text>
-            <View style={[styles.featureBadge, { backgroundColor: '#3B82F6' }]}>
-              <Text style={styles.featureBadgeText}>✓</Text>
-            </View>
-          </View>
-
-          <View style={styles.featureItem}>
-            <Ionicons name="trending-up" size={20} color="#EF4444" />
-            <Text style={styles.featureText}>Progresso de humor</Text>
-            <View style={[styles.featureBadge, { backgroundColor: '#EF4444' }]}>
-              <Text style={styles.featureBadgeText}>✓</Text>
-            </View>
-          </View>
-
-          <View style={styles.featureItem}>
-            <Ionicons name="person-circle" size={20} color="#8B5CF6" />
-            <Text style={styles.featureText}>Perfil personalizado</Text>
-            <View style={[styles.featureBadge, { backgroundColor: '#8B5CF6' }]}>
-              <Text style={styles.featureBadgeText}>✓</Text>
-            </View>
-          </View>
-          
-          <View style={[styles.featureItem, styles.featureItemDisabled]}>
-            <Ionicons name="flower" size={20} color="#9CA3AF" />
-            <Text style={[styles.featureText, styles.featureTextDisabled]}>
-              Exercícios de meditação
-            </Text>
-          </View>
-          
-          <View style={[styles.featureItem, styles.featureItemDisabled]}>
-            <Ionicons name="chatbubble-ellipses" size={20} color="#9CA3AF" />
-            <Text style={[styles.featureText, styles.featureTextDisabled]}>
-              Chat de suporte emocional
-            </Text>
-          </View>
-        </View>
         </View>
       </ScrollView>
     </SafeAreaView>
