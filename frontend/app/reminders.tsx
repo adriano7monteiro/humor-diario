@@ -140,7 +140,19 @@ export default function RemindersScreen() {
 
     try {
       const response = await api.post('/api/reminders', newReminder);
-      setReminders(prev => [...prev, response.data]);
+      const createdReminder = response.data;
+      
+      // Schedule notification if enabled
+      if (createdReminder.enabled) {
+        await NotificationService.scheduleReminder(
+          createdReminder.id,
+          createdReminder.title,
+          createdReminder.time,
+          createdReminder.days
+        );
+      }
+      
+      setReminders(prev => [...prev, createdReminder]);
       setShowModal(false);
       setNewReminder({
         type: 'mood',
