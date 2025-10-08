@@ -83,6 +83,23 @@ export default function RemindersScreen() {
   const toggleReminder = async (id: string, enabled: boolean) => {
     try {
       await api.patch(`/api/reminders/${id}`, { enabled });
+      const reminder = reminders.find(r => r.id === id);
+      
+      if (reminder) {
+        if (enabled) {
+          // Schedule notification
+          await NotificationService.scheduleReminder(
+            reminder.id,
+            reminder.title,
+            reminder.time,
+            reminder.days
+          );
+        } else {
+          // Cancel notification
+          await NotificationService.cancelReminderNotifications(reminder.id);
+        }
+      }
+      
       setReminders(prev =>
         prev.map(r => r.id === id ? { ...r, enabled } : r)
       );
