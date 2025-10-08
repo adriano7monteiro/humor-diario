@@ -44,7 +44,7 @@ const ebooks: Ebook[] = [
     preview: '/assets/ebook-mindfulness-preview.pdf'
   },
   {
-    id: '2',
+    id: 'breathing',
     title: 'Técnicas de Respiração para Ansiedade',
     description: 'Aprenda métodos cientificamente comprovados para controlar a ansiedade através da respiração.',
     price: 19.90,
