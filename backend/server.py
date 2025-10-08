@@ -1839,6 +1839,376 @@ app.add_middleware(
     allow_headers=["*", "Authorization", "Content-Type"],
 )
 
+# ============================================
+# NEW FEATURES: High Priority Functionalities
+# ============================================
+
+# 1. Gratitude Journal Models
+class GratitudeEntry(BaseModel):
+    id: str
+    user_id: str
+    gratitudes: List[str]  # List of 3 things user is grateful for
+    reflection: Optional[str] = None  # Optional free text
+    date: datetime
+    created_at: datetime
+
+class GratitudeEntryCreate(BaseModel):
+    gratitudes: List[str]
+    reflection: Optional[str] = None
+
+class GratitudeEntryResponse(BaseModel):
+    id: str
+    gratitudes: List[str]
+    reflection: Optional[str]
+    date: str
+    created_at: str
+
+# 2. Breathing Exercise Models
+class BreathingTechnique(str, Enum):
+    FOUR_SEVEN_EIGHT = "4-7-8"  # Anxiety relief
+    BOX_BREATHING = "box"  # Focus
+    DEEP_BREATHING = "deep"  # Relaxation
+
+class BreathingSession(BaseModel):
+    id: str
+    user_id: str
+    technique: BreathingTechnique
+    duration_seconds: int
+    completed: bool
+    date: datetime
+    created_at: datetime
+
+class BreathingSessionCreate(BaseModel):
+    technique: BreathingTechnique
+    duration_seconds: int
+    completed: bool = True
+
+class BreathingSessionResponse(BaseModel):
+    id: str
+    technique: str
+    duration_seconds: int
+    completed: bool
+    date: str
+    stars_earned: int  # Gamification
+
+# 3. Reminders/Habits Models
+class ReminderType(str, Enum):
+    MOOD = "mood"  # Register mood
+    WATER = "water"  # Drink water
+    BREAK = "break"  # Take a break
+    SLEEP = "sleep"  # Time to sleep
+    MEDITATION = "meditation"  # Meditate
+    GRATITUDE = "gratitude"  # Write gratitude
+
+class UserReminder(BaseModel):
+    id: str
+    user_id: str
+    type: ReminderType
+    title: str
+    time: str  # Format: "HH:MM"
+    enabled: bool
+    days: List[int]  # 0-6 (Monday to Sunday)
+    created_at: datetime
+    updated_at: datetime
+
+class ReminderCreate(BaseModel):
+    type: ReminderType
+    title: str
+    time: str
+    enabled: bool = True
+    days: List[int] = [0, 1, 2, 3, 4, 5, 6]  # All days by default
+
+class ReminderUpdate(BaseModel):
+    title: Optional[str] = None
+    time: Optional[str] = None
+    enabled: Optional[bool] = None
+    days: Optional[List[int]] = None
+
+# ============================================
+# GRATITUDE JOURNAL ENDPOINTS
+# ============================================
+
+@api_router.post("/gratitude", response_model=GratitudeEntryResponse)
+async def create_gratitude_entry(
+    entry: GratitudeEntryCreate,
+    current_user: User = Depends(get_current_user)
+):
+    """Create a new gratitude journal entry"""
+    try:
+        today = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
+        
+        # Check if entry already exists for today
+        existing = await db.gratitude_entries.find_one({
+            "user_id": current_user.id,
+            "date": {"$gte": today, "$lt": today + timedelta(days=1)}
+        })
+        
+        if existing:
+            raise HTTPException(status_code=400, detail="Você já registrou gratidão hoje. Edite a entrada existente.")
+        
+        entry_dict = {
+            "id": str(uuid.uuid4()),
+            "user_id": current_user.id,
+            "gratitudes": entry.gratitudes[:3],  # Max 3
+            "reflection": entry.reflection,
+            "date": today,
+            "created_at": datetime.utcnow()
+        }
+        
+        await db.gratitude_entries.insert_one(entry_dict)
+        
+        # Award 10 stars for gratitude practice
+        await db.user_stats.update_one(
+            {"user_id": current_user.id},
+            {"$inc": {"total_xp": 10}}
+        )
+        
+        return GratitudeEntryResponse(
+            id=entry_dict["id"],
+            gratitudes=entry_dict["gratitudes"],
+            reflection=entry_dict["reflection"],
+            date=entry_dict["date"].isoformat(),
+            created_at=entry_dict["created_at"].isoformat()
+        )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error creating gratitude entry: {e}")
+        raise HTTPException(status_code=500, detail="Erro ao criar entrada de gratidão")
+
+@api_router.get("/gratitude/today")
+async def get_today_gratitude(current_user: User = Depends(get_current_user)):
+    """Get today's gratitude entry"""
+    try:
+        today = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
+        
+        entry = await db.gratitude_entries.find_one({
+            "user_id": current_user.id,
+            "date": {"$gte": today, "$lt": today + timedelta(days=1)}
+        })
+        
+        if not entry:
+            return None
+        
+        return GratitudeEntryResponse(
+            id=entry["id"],
+            gratitudes=entry["gratitudes"],
+            reflection=entry.get("reflection"),
+            date=entry["date"].isoformat(),
+            created_at=entry["created_at"].isoformat()
+        )
+        
+    except Exception as e:
+        logger.error(f"Error fetching today's gratitude: {e}")
+        raise HTTPException(status_code=500, detail="Erro ao buscar gratidão de hoje")
+
+@api_router.get("/gratitude/history")
+async def get_gratitude_history(
+    limit: int = 30,
+    current_user: User = Depends(get_current_user)
+):
+    """Get gratitude history"""
+    try:
+        entries = await db.gratitude_entries.find(
+            {"user_id": current_user.id}
+        ).sort("date", -1).limit(limit).to_list(length=limit)
+        
+        return [
+            GratitudeEntryResponse(
+                id=entry["id"],
+                gratitudes=entry["gratitudes"],
+                reflection=entry.get("reflection"),
+                date=entry["date"].isoformat(),
+                created_at=entry["created_at"].isoformat()
+            )
+            for entry in entries
+        ]
+        
+    except Exception as e:
+        logger.error(f"Error fetching gratitude history: {e}")
+        raise HTTPException(status_code=500, detail="Erro ao buscar histórico")
+
+# ============================================
+# BREATHING EXERCISES ENDPOINTS
+# ============================================
+
+@api_router.post("/breathing/session", response_model=BreathingSessionResponse)
+async def create_breathing_session(
+    session: BreathingSessionCreate,
+    current_user: User = Depends(get_current_user)
+):
+    """Record a breathing exercise session"""
+    try:
+        session_dict = {
+            "id": str(uuid.uuid4()),
+            "user_id": current_user.id,
+            "technique": session.technique.value,
+            "duration_seconds": session.duration_seconds,
+            "completed": session.completed,
+            "date": datetime.utcnow(),
+            "created_at": datetime.utcnow()
+        }
+        
+        await db.breathing_sessions.insert_one(session_dict)
+        
+        # Award stars (5 stars per session)
+        stars_earned = 5 if session.completed else 0
+        if stars_earned > 0:
+            await db.user_stats.update_one(
+                {"user_id": current_user.id},
+                {"$inc": {"total_xp": stars_earned}}
+            )
+        
+        return BreathingSessionResponse(
+            id=session_dict["id"],
+            technique=session_dict["technique"],
+            duration_seconds=session_dict["duration_seconds"],
+            completed=session_dict["completed"],
+            date=session_dict["date"].isoformat(),
+            stars_earned=stars_earned
+        )
+        
+    except Exception as e:
+        logger.error(f"Error creating breathing session: {e}")
+        raise HTTPException(status_code=500, detail="Erro ao registrar sessão")
+
+@api_router.get("/breathing/stats")
+async def get_breathing_stats(current_user: User = Depends(get_current_user)):
+    """Get breathing exercise statistics"""
+    try:
+        # Count total sessions
+        total_sessions = await db.breathing_sessions.count_documents({
+            "user_id": current_user.id,
+            "completed": True
+        })
+        
+        # Get sessions this week
+        week_ago = datetime.utcnow() - timedelta(days=7)
+        week_sessions = await db.breathing_sessions.count_documents({
+            "user_id": current_user.id,
+            "completed": True,
+            "date": {"$gte": week_ago}
+        })
+        
+        # Get favorite technique
+        pipeline = [
+            {"$match": {"user_id": current_user.id, "completed": True}},
+            {"$group": {"_id": "$technique", "count": {"$sum": 1}}},
+            {"$sort": {"count": -1}},
+            {"$limit": 1}
+        ]
+        
+        favorite = await db.breathing_sessions.aggregate(pipeline).to_list(length=1)
+        favorite_technique = favorite[0]["_id"] if favorite else None
+        
+        return {
+            "total_sessions": total_sessions,
+            "week_sessions": week_sessions,
+            "favorite_technique": favorite_technique,
+            "total_stars_earned": total_sessions * 5
+        }
+        
+    except Exception as e:
+        logger.error(f"Error fetching breathing stats: {e}")
+        raise HTTPException(status_code=500, detail="Erro ao buscar estatísticas")
+
+# ============================================
+# REMINDERS/HABITS ENDPOINTS
+# ============================================
+
+@api_router.get("/reminders")
+async def get_reminders(current_user: User = Depends(get_current_user)):
+    """Get all user reminders"""
+    try:
+        reminders = await db.user_reminders.find(
+            {"user_id": current_user.id}
+        ).sort("created_at", -1).to_list(length=100)
+        
+        return reminders
+        
+    except Exception as e:
+        logger.error(f"Error fetching reminders: {e}")
+        raise HTTPException(status_code=500, detail="Erro ao buscar lembretes")
+
+@api_router.post("/reminders")
+async def create_reminder(
+    reminder: ReminderCreate,
+    current_user: User = Depends(get_current_user)
+):
+    """Create a new reminder"""
+    try:
+        reminder_dict = {
+            "id": str(uuid.uuid4()),
+            "user_id": current_user.id,
+            "type": reminder.type.value,
+            "title": reminder.title,
+            "time": reminder.time,
+            "enabled": reminder.enabled,
+            "days": reminder.days,
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow()
+        }
+        
+        await db.user_reminders.insert_one(reminder_dict)
+        
+        return reminder_dict
+        
+    except Exception as e:
+        logger.error(f"Error creating reminder: {e}")
+        raise HTTPException(status_code=500, detail="Erro ao criar lembrete")
+
+@api_router.patch("/reminders/{reminder_id}")
+async def update_reminder(
+    reminder_id: str,
+    reminder: ReminderUpdate,
+    current_user: User = Depends(get_current_user)
+):
+    """Update a reminder"""
+    try:
+        update_data = {k: v for k, v in reminder.dict().items() if v is not None}
+        update_data["updated_at"] = datetime.utcnow()
+        
+        result = await db.user_reminders.update_one(
+            {"id": reminder_id, "user_id": current_user.id},
+            {"$set": update_data}
+        )
+        
+        if result.matched_count == 0:
+            raise HTTPException(status_code=404, detail="Lembrete não encontrado")
+        
+        updated = await db.user_reminders.find_one({"id": reminder_id})
+        return updated
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error updating reminder: {e}")
+        raise HTTPException(status_code=500, detail="Erro ao atualizar lembrete")
+
+@api_router.delete("/reminders/{reminder_id}")
+async def delete_reminder(
+    reminder_id: str,
+    current_user: User = Depends(get_current_user)
+):
+    """Delete a reminder"""
+    try:
+        result = await db.user_reminders.delete_one({
+            "id": reminder_id,
+            "user_id": current_user.id
+        })
+        
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Lembrete não encontrado")
+        
+        return {"message": "Lembrete deletado com sucesso"}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error deleting reminder: {e}")
+        raise HTTPException(status_code=500, detail="Erro ao deletar lembrete")
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
