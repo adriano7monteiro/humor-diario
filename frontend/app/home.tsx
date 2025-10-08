@@ -73,6 +73,10 @@ export default function HomeScreen() {
     router.push('/sos');
   };
 
+  const navigateToStore = () => {
+    router.push('/store');
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
