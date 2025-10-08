@@ -206,13 +206,13 @@ export default function HomeScreen() {
 
             <TouchableOpacity 
               style={styles.actionCard}
-              onPress={navigateToBreathing}
+              onPress={navigateToEmotionalProgress}
             >
-              <View style={[styles.actionIconContainer, { backgroundColor: '#DCFCE7' }]}>
-                <Ionicons name="leaf" size={28} color="#22C55E" />
+              <View style={[styles.actionIconContainer, { backgroundColor: '#FEE2E2' }]}>
+                <Ionicons name="trending-up" size={28} color="#EF4444" />
               </View>
-              <Text style={styles.actionTitle}>Respiração</Text>
-              <Text style={styles.actionSubtitle}>Acalme-se em 2min</Text>
+              <Text style={styles.actionTitle}>Progresso de Humor</Text>
+              <Text style={styles.actionSubtitle}>Últimos 7 dias</Text>
             </TouchableOpacity>
           </View>
 
