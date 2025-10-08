@@ -436,6 +436,20 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginLeft: 8,
   },
+  historyButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 12,
+    marginTop: 16,
+    borderRadius: 8,
+    backgroundColor: 'transparent',
+  },
+  historyButtonText: {
+    color: '#64748B',
+    fontSize: 14,
+    marginLeft: 8,
+  },
   historyContainer: {
     marginTop: 8,
   },
