@@ -206,7 +206,7 @@ export default function HomeScreen() {
 
           <View style={styles.featureItem}>
             <Ionicons name="analytics" size={20} color="#3B82F6" />
-            <Text style={styles.featureText}>Sistema de níveis e XP</Text>
+            <Text style={styles.featureText}>Sistema de níveis e ⭐ Estrelas</Text>
             <View style={[styles.featureBadge, { backgroundColor: '#3B82F6' }]}>
               <Text style={styles.featureBadgeText}>✓</Text>
             </View>
