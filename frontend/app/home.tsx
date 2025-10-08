@@ -188,6 +188,57 @@ export default function HomeScreen() {
               </View>
             </TouchableOpacity>
           </View>
+
+          {/* New Features Section */}
+          <Text style={styles.sectionTitle}>✨ Novas Ferramentas</Text>
+          
+          <View style={styles.actionsGrid}>
+            <TouchableOpacity 
+              style={styles.actionCard}
+              onPress={navigateToGratitude}
+            >
+              <View style={[styles.actionIconContainer, { backgroundColor: '#FEF3C7' }]}>
+                <Ionicons name="heart" size={28} color="#F59E0B" />
+              </View>
+              <Text style={styles.actionTitle}>Diário de Gratidão</Text>
+              <Text style={styles.actionSubtitle}>+10 ⭐ por dia</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              style={styles.actionCard}
+              onPress={navigateToBreathing}
+            >
+              <View style={[styles.actionIconContainer, { backgroundColor: '#DCFCE7' }]}>
+                <Ionicons name="leaf" size={28} color="#22C55E" />
+              </View>
+              <Text style={styles.actionTitle}>Respiração</Text>
+              <Text style={styles.actionSubtitle}>Acalme-se em 2min</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.actionsGrid}>
+            <TouchableOpacity 
+              style={styles.actionCard}
+              onPress={navigateToReminders}
+            >
+              <View style={[styles.actionIconContainer, { backgroundColor: '#EEF2FF' }]}>
+                <Ionicons name="notifications" size={28} color="#4F46E5" />
+              </View>
+              <Text style={styles.actionTitle}>Lembretes</Text>
+              <Text style={styles.actionSubtitle}>Crie hábitos</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              style={styles.actionCard}
+              onPress={navigateToSOS}
+            >
+              <View style={[styles.actionIconContainer, { backgroundColor: '#FEE2E2' }]}>
+                <Ionicons name="alert-circle" size={28} color="#EF4444" />
+              </View>
+              <Text style={styles.actionTitle}>SOS</Text>
+              <Text style={styles.actionSubtitle}>Apoio imediato</Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         <View style={styles.card}>
