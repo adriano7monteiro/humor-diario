@@ -352,6 +352,8 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+  },
+  contentInner: {
     padding: 24,
   },
   quickActionsContainer: {
