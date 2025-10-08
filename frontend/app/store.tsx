@@ -31,7 +31,7 @@ interface Ebook {
 
 const ebooks: Ebook[] = [
   {
-    id: '1',
+    id: 'mindfulness',
     title: 'Mindfulness e Bem-Estar Mental',
     description: 'Um guia completo para desenvolver mindfulness e alcançar equilíbrio emocional no dia a dia.',
     price: 29.90,
