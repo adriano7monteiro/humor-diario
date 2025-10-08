@@ -17,6 +17,7 @@ from emergentintegrations.payments.stripe.checkout import StripeCheckout, Checko
 from emergentintegrations.llm.chat import LlmChat, UserMessage
 from models.chat import ChatMessage, ChatConversation, SendMessageRequest, ChatResponse, MessageRole
 from models.missions import Mission, MissionCategory, MissionDifficulty, DailyMissionSet, UserMissionProgress
+from models.payments import PaymentTransaction, EbookPackage, EBOOK_PACKAGES
 from enum import Enum
 
 ROOT_DIR = Path(__file__).parent
