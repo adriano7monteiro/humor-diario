@@ -2206,6 +2206,9 @@ async def delete_reminder(
         logger.error(f"Error deleting reminder: {e}")
         raise HTTPException(status_code=500, detail="Erro ao deletar lembrete")
 
+# Include the router in the main app (MUST be after all endpoint definitions)
+app.include_router(api_router)
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
