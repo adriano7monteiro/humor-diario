@@ -218,6 +218,17 @@ export default function GratitudeScreen() {
                   )}
                 </TouchableOpacity>
               )}
+
+              {/* History Button */}
+              <TouchableOpacity
+                style={styles.historyButton}
+                onPress={() => setShowHistory(!showHistory)}
+              >
+                <Ionicons name="time-outline" size={20} color="#64748B" />
+                <Text style={styles.historyButtonText}>
+                  {showHistory ? 'Voltar ao formulário' : 'Ver histórico dos últimos 7 dias'}
+                </Text>
+              </TouchableOpacity>
             </>
           ) : (
             <View style={styles.historyContainer}>
