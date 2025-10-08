@@ -65,6 +65,169 @@ export class NotificationService {
     }
   }
 
+  /**
+   * Schedule a reminder notification
+   */
+  static async scheduleReminder(
+    reminderId: string,
+    title: string,
+    time: string, // Format: "HH:MM"
+    days: number[] // 0-6 (Monday-Sunday)
+  ): Promise<void> {
+    try {
+      console.log(`🔔 Scheduling reminder: ${title} at ${time} on days ${days}`);
+
+      // Parse time
+      const [hour, minute] = time.split(':').map(Number);
+
+      // Cancel existing notifications for this reminder
+      await this.cancelReminderNotifications(reminderId);
+
+      // Get icons for different reminder types
+      const icon = title.toLowerCase().includes('água') ? '💧' :
+                   title.toLowerCase().includes('humor') ? '😊' :
+                   title.toLowerCase().includes('dormir') ? '🌙' :
+                   title.toLowerCase().includes('pausa') ? '☕' :
+                   title.toLowerCase().includes('meditar') ? '🧘' :
+                   title.toLowerCase().includes('gratidão') ? '💖' : '⏰';
+
+      // Schedule notification for each selected day
+      const notificationIds: string[] = [];
+      
+      for (const day of days) {
+        const notificationId = `reminder_${reminderId}_day${day}`;
+        
+        await Notifications.scheduleNotificationAsync({
+          content: {
+            title: `${icon} ${title}`,
+            body: 'Hora de cuidar de você!',
+            data: { 
+              type: 'reminder',
+              reminderId,
+              day 
+            },
+            sound: 'default',
+          },
+          trigger: {
+            weekday: day === 6 ? 1 : day + 2, // Expo uses 1=Sunday, we use 0=Monday
+            hour,
+            minute,
+            repeats: true,
+          },
+          identifier: notificationId,
+        });
+
+        notificationIds.push(notificationId);
+      }
+
+      // Store notification IDs
+      await this.saveNotificationIds(reminderId, notificationIds);
+
+      console.log(`✅ Scheduled ${notificationIds.length} notifications for reminder ${reminderId}`);
+    } catch (error) {
+      console.error('❌ Error scheduling reminder:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Cancel all notifications for a reminder
+   */
+  static async cancelReminderNotifications(reminderId: string): Promise<void> {
+    try {
+      console.log(`🔔 Canceling notifications for reminder: ${reminderId}`);
+
+      // Get stored notification IDs
+      const notificationIds = await this.getNotificationIds(reminderId);
+
+      // Cancel each notification
+      for (const notificationId of notificationIds) {
+        await Notifications.cancelScheduledNotificationAsync(notificationId);
+      }
+
+      // Remove from storage
+      await this.removeNotificationIds(reminderId);
+
+      console.log(`✅ Canceled ${notificationIds.length} notifications`);
+    } catch (error) {
+      console.error('❌ Error canceling notifications:', error);
+    }
+  }
+
+  /**
+   * Update reminder notifications (cancel old and schedule new)
+   */
+  static async updateReminderNotifications(
+    reminderId: string,
+    title: string,
+    time: string,
+    days: number[]
+  ): Promise<void> {
+    await this.cancelReminderNotifications(reminderId);
+    await this.scheduleReminder(reminderId, title, time, days);
+  }
+
+  /**
+   * Cancel all notifications (useful for logout or disable all)
+   */
+  static async cancelAllNotifications(): Promise<void> {
+    try {
+      await Notifications.cancelAllScheduledNotificationsAsync();
+      await AsyncStorage.removeItem(NOTIFICATION_IDS_KEY);
+      console.log('✅ All notifications canceled');
+    } catch (error) {
+      console.error('❌ Error canceling all notifications:', error);
+    }
+  }
+
+  /**
+   * Get all scheduled notifications (for debugging)
+   */
+  static async getAllScheduledNotifications(): Promise<any[]> {
+    try {
+      const notifications = await Notifications.getAllScheduledNotificationsAsync();
+      console.log(`📋 Total scheduled notifications: ${notifications.length}`);
+      return notifications;
+    } catch (error) {
+      console.error('❌ Error getting notifications:', error);
+      return [];
+    }
+  }
+
+  // Storage helpers
+  private static async saveNotificationIds(reminderId: string, notificationIds: string[]): Promise<void> {
+    try {
+      const stored = await AsyncStorage.getItem(NOTIFICATION_IDS_KEY);
+      const allIds = stored ? JSON.parse(stored) : {};
+      allIds[reminderId] = notificationIds;
+      await AsyncStorage.setItem(NOTIFICATION_IDS_KEY, JSON.stringify(allIds));
+    } catch (error) {
+      console.error('Error saving notification IDs:', error);
+    }
+  }
+
+  private static async getNotificationIds(reminderId: string): Promise<string[]> {
+    try {
+      const stored = await AsyncStorage.getItem(NOTIFICATION_IDS_KEY);
+      const allIds = stored ? JSON.parse(stored) : {};
+      return allIds[reminderId] || [];
+    } catch (error) {
+      console.error('Error getting notification IDs:', error);
+      return [];
+    }
+  }
+
+  private static async removeNotificationIds(reminderId: string): Promise<void> {
+    try {
+      const stored = await AsyncStorage.getItem(NOTIFICATION_IDS_KEY);
+      const allIds = stored ? JSON.parse(stored) : {};
+      delete allIds[reminderId];
+      await AsyncStorage.setItem(NOTIFICATION_IDS_KEY, JSON.stringify(allIds));
+    } catch (error) {
+      console.error('Error removing notification IDs:', error);
+    }
+  }
+
   static async scheduleHumorReminder(): Promise<void> {
     try {
       // Cancel existing humor reminder
