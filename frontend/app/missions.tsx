@@ -221,7 +221,7 @@ export default function MissionsScreen() {
                     <Text style={styles.statValue}>{userStats.current_level}</Text>
                   </View>
                   <View style={styles.statItem}>
-                    <Text style={styles.statLabel}>XP Total</Text>
+                    <Text style={styles.statLabel}>⭐ Total</Text>
                     <Text style={styles.statValue}>{userStats.total_xp}</Text>
                   </View>
                 </View>
