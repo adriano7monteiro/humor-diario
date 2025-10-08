@@ -8,44 +8,56 @@ Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
     shouldPlaySound: true,
-    shouldSetBadge: false,
+    shouldSetBadge: true,
   }),
 });
 
+// Storage key for notification IDs
+const NOTIFICATION_IDS_KEY = '@reminder_notification_ids';
+
 export class NotificationService {
+  /**
+   * Request notification permissions from the user
+   */
   static async requestPermissions(): Promise<boolean> {
     try {
-      console.log('🔔 Checking device compatibility...');
-      console.log('🔔 Device.isDevice:', Device.isDevice);
-      console.log('🔔 Platform.OS:', Platform.OS);
+      console.log('🔔 Requesting notification permissions...');
       
-      if (!Device.isDevice) {
-        console.log('🔔 Must use physical device for Push Notifications, but continuing for web testing...');
-        // For web testing, we'll continue instead of returning false
-        if (Platform.OS !== 'web') {
-          return false;
-        }
+      // Check if running on physical device (required for iOS)
+      if (!Device.isDevice && Platform.OS !== 'web') {
+        console.log('⚠️ Must use physical device for notifications on iOS/Android');
+        return false;
       }
 
-      console.log('🔔 Getting existing permissions...');
+      // Get current permission status
       const { status: existingStatus } = await Notifications.getPermissionsAsync();
-      console.log('🔔 Existing permission status:', existingStatus);
+      console.log('🔔 Current permission status:', existingStatus);
       
       let finalStatus = existingStatus;
 
+      // Request permission if not granted
       if (existingStatus !== 'granted') {
-        console.log('🔔 Requesting new permissions...');
         const { status } = await Notifications.requestPermissionsAsync();
-        console.log('🔔 New permission status:', status);
         finalStatus = status;
       }
 
       if (finalStatus !== 'granted') {
-        console.log('🔔 Failed to get permission for push notifications! Final status:', finalStatus);
+        console.log('❌ Notification permission denied');
         return false;
       }
 
-      console.log('✅ Notification permissions granted successfully');
+      // Configure notification channel for Android
+      if (Platform.OS === 'android') {
+        await Notifications.setNotificationChannelAsync('reminders', {
+          name: 'Lembretes',
+          importance: Notifications.AndroidImportance.HIGH,
+          vibrationPattern: [0, 250, 250, 250],
+          lightColor: '#4F46E5',
+          sound: 'default',
+        });
+      }
+
+      console.log('✅ Notification permissions granted');
       return true;
     } catch (error) {
       console.log('❌ Error requesting notification permissions:', error);
