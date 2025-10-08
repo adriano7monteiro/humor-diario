@@ -175,13 +175,16 @@ export default function ProgressScreen() {
         {/* Level Card */}
         <View style={styles.levelCard}>
           <View style={styles.levelHeader}>
-            <View style={[styles.levelBadge, { backgroundColor: getLevelColor(userStats.current_level) + '20' }]}>
-              <Ionicons name="trophy" size={24} color={getLevelColor(userStats.current_level)} />
-              <Text style={[styles.levelNumber, { color: getLevelColor(userStats.current_level) }]}>
+            <View style={[styles.levelBadge, { backgroundColor: getLevelColor(userStats.level_tier) + '20' }]}>
+              <Text style={styles.levelEmoji}>{userStats.level_emoji}</Text>
+              <Text style={[styles.levelNumber, { color: getLevelColor(userStats.level_tier) }]}>
                 Nível {userStats.current_level}
               </Text>
             </View>
-            <Text style={styles.levelTitle}>{getLevelTitle(userStats.current_level)}</Text>
+            <View style={styles.levelTitleContainer}>
+              <Text style={styles.levelTitle}>{userStats.level_name}</Text>
+              <Text style={styles.levelDescription}>{userStats.level_description}</Text>
+            </View>
           </View>
           
           <View style={styles.xpContainer}>
