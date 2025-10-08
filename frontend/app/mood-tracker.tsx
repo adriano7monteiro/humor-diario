@@ -293,7 +293,16 @@ export default function MoodTrackerScreen() {
                 style={[styles.modalButton, styles.modalButtonPrimary]}
                 onPress={() => {
                   setShowDrAnaModal(false);
-                  router.replace('/chat');
+                  const selectedMoodOption = moodOptions.find(m => m.level === selectedMood);
+                  router.push({
+                    pathname: '/chat',
+                    params: {
+                      fromMood: 'true',
+                      moodLevel: selectedMood?.toString() || '1',
+                      moodEmoji: selectedMoodOption?.emoji || '😢',
+                      moodLabel: selectedMoodOption?.label || 'Muito Triste'
+                    }
+                  });
                 }}
               >
                 <Text style={styles.modalButtonPrimaryText}>Sim, quero conversar</Text>
