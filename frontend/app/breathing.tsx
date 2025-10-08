@@ -413,9 +413,15 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     position: 'absolute',
-    top: 60,
+    top: 16,
     right: 20,
-    zIndex: 10,
+    zIndex: 999,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   exerciseContent: {
     alignItems: 'center',
