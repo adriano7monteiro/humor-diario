@@ -297,7 +297,7 @@ export default function EmotionalProgressScreen() {
         >
           <Ionicons name="arrow-back" size={24} color="#1E293B" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Progresso Emocional</Text>
+        <Text style={styles.headerTitle}>Progresso de Humor</Text>
         <View style={{ width: 40 }} />
       </View>
 
