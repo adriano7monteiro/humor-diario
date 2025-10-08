@@ -192,7 +192,7 @@ export default function HomeScreen() {
           </View>
 
           {/* New Features Section */}
-          <View style={styles.actionsGrid}>
+          <View style={[styles.actionsGrid, { marginTop: 24 }]}>
             <TouchableOpacity 
               style={styles.actionCard}
               onPress={navigateToGratitude}
