@@ -243,6 +243,23 @@ export default function HomeScreen() {
               <Text style={styles.actionSubtitle}>Apoio imediato</Text>
             </TouchableOpacity>
           </View>
+
+          <View style={styles.actionsGrid}>
+            <TouchableOpacity 
+              style={styles.actionCard}
+              onPress={navigateToStore}
+            >
+              <View style={[styles.actionIconContainer, { backgroundColor: '#FEF3C7' }]}>
+                <Ionicons name="storefront" size={28} color="#F59E0B" />
+              </View>
+              <Text style={styles.actionTitle}>Loja de Ebooks</Text>
+              <Text style={styles.actionSubtitle}>Cursos e materiais</Text>
+            </TouchableOpacity>
+
+            <View style={styles.actionCard}>
+              {/* Placeholder para manter o layout */}
+            </View>
+          </View>
         </View>
         </View>
       </ScrollView>
