@@ -37,6 +37,7 @@ interface Conversation {
 export default function ChatScreen() {
   const { api } = useAuth();
   const router = useRouter();
+  const params = useLocalSearchParams();
   const scrollViewRef = useRef<ScrollView>(null);
 
   const [messages, setMessages] = useState<Message[]>([]);
@@ -46,10 +47,26 @@ export default function ChatScreen() {
   const [loading, setLoading] = useState(false);
   const [sendingMessage, setSendingMessage] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const [hasProcessedMood, setHasProcessedMood] = useState(false);
 
   useEffect(() => {
     loadConversations();
   }, []);
+
+  // Process mood params and send initial message
+  useEffect(() => {
+    if (params.fromMood === 'true' && !hasProcessedMood && currentConversationId) {
+      setHasProcessedMood(true);
+      const moodEmoji = params.moodEmoji || '😢';
+      const moodLabel = params.moodLabel || 'Muito Triste';
+      const initialMessage = `Oi Dr. Ana, acabei de registrar meu humor como ${moodEmoji} ${moodLabel}. Estou me sentindo assim hoje...`;
+      
+      // Send the initial message automatically
+      setTimeout(() => {
+        sendAutomaticMessage(initialMessage);
+      }, 500);
+    }
+  }, [params, hasProcessedMood, currentConversationId]);
 
   const loadConversations = async () => {
     try {
