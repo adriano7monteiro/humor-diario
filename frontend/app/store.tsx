@@ -68,7 +68,7 @@ const ebooks: Ebook[] = [
     preview: '/assets/ebook-gratidao-preview.pdf'
   },
   {
-    id: '4',
+    id: 'stress',
     title: 'Gestão do Estresse no Trabalho',
     description: 'Estratégias práticas para lidar com pressões profissionais e manter o equilíbrio.',
     price: 34.90,
