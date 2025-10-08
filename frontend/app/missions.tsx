@@ -37,7 +37,7 @@ interface Mission {
   id: string;
   title: string;
   description: string;
-  xp: number;
+  xp_reward: number;
   completed: boolean;
   icon: string;
 }
