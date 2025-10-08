@@ -409,16 +409,29 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
-    marginBottom: 8,
+    marginBottom: 12,
+  },
+  levelEmoji: {
+    fontSize: 24,
   },
   levelNumber: {
     marginLeft: 8,
     fontSize: 18,
     fontWeight: 'bold',
   },
+  levelTitleContainer: {
+    alignItems: 'center',
+  },
   levelTitle: {
-    fontSize: 16,
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#1E293B',
+    marginBottom: 4,
+  },
+  levelDescription: {
+    fontSize: 14,
     color: '#64748B',
+    textAlign: 'center',
   },
   xpContainer: {
     alignItems: 'center',
