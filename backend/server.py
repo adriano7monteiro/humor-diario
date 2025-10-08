@@ -2147,11 +2147,14 @@ async def create_reminder(
             "time": reminder.time,
             "enabled": reminder.enabled,
             "days": reminder.days,
-            "created_at": datetime.utcnow(),
-            "updated_at": datetime.utcnow()
+            "created_at": datetime.utcnow().isoformat(),
+            "updated_at": datetime.utcnow().isoformat()
         }
         
-        await db.user_reminders.insert_one(reminder_dict)
+        await db.user_reminders.insert_one(reminder_dict.copy())
+        
+        # Remove MongoDB _id before returning
+        reminder_dict.pop("_id", None)
         
         return reminder_dict
         
