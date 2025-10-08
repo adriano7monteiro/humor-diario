@@ -1031,50 +1031,11 @@ async def activate_subscription(user_id: str, plan_id: str):
         logger.error(f"Error activating subscription: {e}")
         return False
 
-# Subscription middleware to check access
+# Subscription middleware to check access - DISABLED (all features available)
 async def check_subscription_access(current_user: User = Depends(get_current_user)):
-    """Middleware to check if user has active subscription"""
-    try:
-        subscription = await db.user_subscriptions.find_one({"user_id": current_user.id})
-        
-        if not subscription:
-            raise HTTPException(
-                status_code=402, 
-                detail="Subscription required. Please choose a plan to continue."
-            )
-        
-        now = datetime.utcnow()
-        subscription_obj = UserSubscription(**subscription)
-        
-        # Check free trial
-        if subscription_obj.status == SubscriptionStatus.FREE_TRIAL:
-            if now > subscription_obj.free_trial_end:
-                raise HTTPException(
-                    status_code=402, 
-                    detail="Free trial expired. Please choose a paid plan to continue."
-                )
-        
-        # Check paid subscription
-        elif subscription_obj.status == SubscriptionStatus.ACTIVE:
-            if now > subscription_obj.end_date:
-                raise HTTPException(
-                    status_code=402, 
-                    detail="Subscription expired. Please renew your plan to continue."
-                )
-        
-        else:
-            raise HTTPException(
-                status_code=402, 
-                detail="No active subscription. Please choose a plan to continue."
-            )
-        
-        return subscription_obj
-        
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.error(f"Error checking subscription access: {e}")
-        raise HTTPException(status_code=500, detail="Failed to verify subscription")
+    """Middleware to check if user has active subscription - DISABLED"""
+    # All features are now available without subscription checks
+    return None
 
 # Chat endpoints
 @api_router.post("/chat/send", response_model=ChatResponse)
