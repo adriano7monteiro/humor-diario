@@ -520,6 +520,58 @@ def get_xp_for_next_level(current_level: int) -> int:
     """Get XP required for next level"""
     return current_level * 100
 
+def get_level_info(level: int) -> dict:
+    """Get level name, emoji and description based on current level"""
+    if level <= 2:
+        return {
+            "name": "Semeador",
+            "emoji": "🌱",
+            "description": "Plantando as primeiras sementes do autocuidado",
+            "tier": "iniciante"
+        }
+    elif level <= 5:
+        return {
+            "name": "Cultivador",
+            "emoji": "🌿",
+            "description": "Nutrindo seus hábitos de bem-estar",
+            "tier": "crescimento"
+        }
+    elif level <= 8:
+        return {
+            "name": "Florescente",
+            "emoji": "🌸",
+            "description": "Vendo os frutos do seu esforço",
+            "tier": "florescimento"
+        }
+    elif level <= 12:
+        return {
+            "name": "Enraizado",
+            "emoji": "🌳",
+            "description": "Forte e equilibrado emocionalmente",
+            "tier": "estabilidade"
+        }
+    elif level <= 16:
+        return {
+            "name": "Transformado",
+            "emoji": "🦋",
+            "description": "Evoluído e resiliente",
+            "tier": "transformação"
+        }
+    elif level <= 20:
+        return {
+            "name": "Iluminado",
+            "emoji": "✨",
+            "description": "Mestre do autocuidado",
+            "tier": "maestria"
+        }
+    else:
+        return {
+            "name": "Guardião",
+            "emoji": "🌟",
+            "description": "Inspirando outros na jornada",
+            "tier": "lendário"
+        }
+
 # Mission Routes
 @api_router.get("/missions/today")
 async def get_daily_missions(current_user: User = Depends(get_current_user)):
