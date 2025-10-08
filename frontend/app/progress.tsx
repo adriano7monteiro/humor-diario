@@ -103,22 +103,17 @@ export default function ProgressScreen() {
     router.push('/missions');
   };
 
-  const getLevelTitle = (level: number) => {
-    if (level <= 5) return 'Iniciante';
-    if (level <= 10) return 'Aprendiz';
-    if (level <= 20) return 'Praticante';
-    if (level <= 35) return 'Experiente';
-    if (level <= 50) return 'Veterano';
-    return 'Mestre';
-  };
-
-  const getLevelColor = (level: number) => {
-    if (level <= 5) return '#10B981';
-    if (level <= 10) return '#3B82F6';
-    if (level <= 20) return '#8B5CF6';
-    if (level <= 35) return '#F59E0B';
-    if (level <= 50) return '#EF4444';
-    return '#7C3AED';
+  const getLevelColor = (tier: string) => {
+    switch (tier) {
+      case 'iniciante': return '#10B981';      // Verde - Semeador
+      case 'crescimento': return '#22C55E';    // Verde claro - Cultivador
+      case 'florescimento': return '#EC4899';  // Rosa - Florescente
+      case 'estabilidade': return '#8B5CF6';   // Roxo - Enraizado
+      case 'transformação': return '#F59E0B';  // Laranja - Transformado
+      case 'maestria': return '#EAB308';       // Amarelo - Iluminado
+      case 'lendário': return '#7C3AED';       // Roxo escuro - Guardião
+      default: return '#4F46E5';
+    }
   };
 
   if (loading) {
