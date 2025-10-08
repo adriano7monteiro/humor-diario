@@ -194,7 +194,7 @@ export default function ProgressScreen() {
               <View style={styles.progressHeader}>
                 <Text style={styles.progressLabel}>Progresso para o próximo nível</Text>
                 <Text style={styles.progressNumbers}>
-                  {getXPInCurrentLevel()}/100 XP
+                  {getXPInCurrentLevel()}/100 ⭐ Estrelas
                 </Text>
               </View>
               
