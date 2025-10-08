@@ -195,6 +195,10 @@ class UserStatsResponse(BaseModel):
     current_level: int
     xp_for_next_level: int
     xp_progress: int
+    level_name: str
+    level_emoji: str
+    level_description: str
+    level_tier: str
 
 class ProfilePhotoUpdate(BaseModel):
     profile_photo: str
