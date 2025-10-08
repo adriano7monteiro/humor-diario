@@ -152,7 +152,7 @@ export default function HomeScreen() {
                 <Ionicons name="analytics" size={28} color="#3B82F6" />
               </View>
               <Text style={styles.actionTitle}>Meu Progresso</Text>
-              <Text style={styles.actionSubtitle}>Veja seu XP e nível</Text>
+              <Text style={styles.actionSubtitle}>Veja suas ⭐ Estrelas e nível</Text>
             </TouchableOpacity>
           </View>
           
