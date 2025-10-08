@@ -71,17 +71,6 @@ class UserSubscription(BaseModel):
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
 
-class PaymentTransaction(BaseModel):
-    user_id: str
-    plan_id: str
-    stripe_session_id: str
-    payment_status: str = "pending"
-    amount: float
-    currency: str = "brl"
-    metadata: Optional[dict] = {}
-    created_at: datetime = Field(default_factory=datetime.utcnow)
-    updated_at: datetime = Field(default_factory=datetime.utcnow)
-
 class CreateCheckoutRequest(BaseModel):
     plan_id: str
     success_url: str
