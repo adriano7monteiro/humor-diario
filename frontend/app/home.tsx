@@ -192,8 +192,6 @@ export default function HomeScreen() {
           </View>
 
           {/* New Features Section */}
-          <Text style={styles.sectionTitle}>✨ Novas Ferramentas</Text>
-          
           <View style={styles.actionsGrid}>
             <TouchableOpacity 
               style={styles.actionCard}
