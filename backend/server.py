@@ -172,23 +172,15 @@ class MissionStatus(BaseModel):
     id: str
     name: str
     description: str
-    xp_reward: int = Field(..., alias="stars_reward")
+    xp_reward: int  # Stars reward (displayed as ⭐ Estrelas in frontend)
     completed: bool
     icon: str
-    
-    class Config:
-        populate_by_name = True
-        allow_population_by_field_name = True
 
 class DailyMissionsResponse(BaseModel):
     date: datetime
     missions: List[MissionStatus]
-    total_xp_today: int = Field(..., alias="total_stars_today")
-    possible_xp: int = Field(..., alias="possible_stars")
-    
-    class Config:
-        populate_by_name = True
-        allow_population_by_field_name = True
+    total_xp_today: int  # Total stars earned today
+    possible_xp: int  # Possible stars for today
 
 class UserStats(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
