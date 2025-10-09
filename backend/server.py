@@ -2414,6 +2414,15 @@ class CorporateQuoteRequest(BaseModel):
     selectedPlan: Optional[str] = None
     source: str = "corporate_website"
 
+class CorporateCheckoutRequest(BaseModel):
+    company: str
+    name: str
+    email: str
+    phone: Optional[str] = None
+    employees: int
+    plan: str  # starter, business, enterprise
+    origin_url: str
+
 @api_router.post("/corporate/quote")
 async def create_corporate_quote(request: CorporateQuoteRequest):
     """Create a corporate quote request"""
