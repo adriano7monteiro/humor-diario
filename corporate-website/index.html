@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soluções Corporativas - Saúde Mental para Empresas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav">
+                <div class="logo">
+                    <h2>💚 MindCare Pro</h2>
+                </div>
+                <nav class="nav-menu">
+                    <a href="#beneficios">Benefícios</a>
+                    <a href="#precos">Preços</a>
+                    <a href="#contato">Contato</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Transforme o Bem-Estar da Sua Empresa
+                </h1>
+                <p class="hero-subtitle">
+                    Reduza absenteísmo em até 40%, aumente produtividade e cuide da saúde mental dos seus colaboradores com nossa plataforma de IA especializada.
+                </p>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">40%</div>
+                        <div class="stat-label">Redução no Absenteísmo</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">85%</div>
+                        <div class="stat-label">Satisfação dos Funcionários</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">3x ROI</div>
+                        <div class="stat-label">Retorno do Investimento</div>
+                    </div>
+                </div>
+
+                <div class="hero-cta">
+                    <button class="btn-primary" onclick="scrollToCalculator()">
+                        Calcular Investimento
+                    </button>
+                    <button class="btn-secondary" onclick="openQuoteModal()">
+                        Falar com Especialista
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="beneficios" class="benefits">
+        <div class="container">
+            <h2 class="section-title">Por que Escolher Nossa Solução?</h2>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">📉</div>
+                    <h3>Reduz Custos Operacionais</h3>
+                    <p>Economize até R$ 50.000/ano em licenças médicas, rotatividade e perda de produtividade</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">👥</div>
+                    <h3>Engaja Equipes</h3>
+                    <p>Melhore o clima organizacional e retenha seus melhores talentos</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">📊</div>
+                    <h3>Dados Precisos</h3>
+                    <p>Dashboard executivo com insights acionáveis sobre o bem-estar organizacional</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">🛡️</div>
+                    <h3>Compliance ESG</h3>
+                    <p>Atenda normas de ESG e responsabilidade social corporativa</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section class="calculator-section">
+        <div class="container">
+            <h2 class="section-title">Calcule o Investimento para Sua Empresa</h2>
+            
+            <div class="calculator-card">
+                <div class="calculator-input">
+                    <label for="employees">Quantos funcionários sua empresa tem?</label>
+                    <input 
+                        type="number" 
+                        id="employees" 
+                        placeholder="Ex: 100" 
+                        min="1" 
+                        max="10000"
+                        onchange="calculatePrice()"
+                    >
+                </div>
+                
+                <div id="calculator-result" class="calculator-result hidden">
+                    <div class="result-header">
+                        <h3>Plano Recomendado: <span id="recommended-plan"></span></h3>
+                        <div class="result-pricing">
+                            <div class="monthly-price">
+                                R$ <span id="monthly-total">0</span>/mês
+                            </div>
+                            <div class="annual-price">
+                                R$ <span id="annual-total">0</span>/ano (20% desconto)
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-primary" onclick="selectCalculatedPlan()">
+                        Solicitar Orçamento Personalizado
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="precos" class="pricing">
+        <div class="container">
+            <h2 class="section-title">Escolha o Plano Ideal</h2>
+            
+            <div class="pricing-grid">
+                <!-- Starter Plan -->
+                <div class="pricing-card">
+                    <div class="plan-header">
+                        <h3 class="plan-name">STARTER</h3>
+                        <p class="plan-subtitle">Até 50 funcionários</p>
+                        <div class="plan-price">
+                            <span class="price-number">R$ 15</span>
+                            <span class="price-period">/funcionário/mês</span>
+                        </div>
+                    </div>
+                    
+                    <ul class="plan-features">
+                        <li>✅ Acesso básico ao app</li>
+                        <li>✅ Chat com Dr. Ana (10 sessões/mês)</li>
+                        <li>✅ Dashboard administrativo</li>
+                        <li>✅ Relatórios mensais</li>
+                        <li>✅ Suporte por email</li>
+                    </ul>
+                    
+                    <button class="btn-outline" onclick="selectPlan('starter')">
+                        Solicitar Orçamento
+                    </button>
+                </div>
+
+                <!-- Business Plan -->
+                <div class="pricing-card recommended">
+                    <div class="recommended-badge">RECOMENDADO</div>
+                    <div class="plan-header">
+                        <h3 class="plan-name">BUSINESS</h3>
+                        <p class="plan-subtitle">Até 200 funcionários</p>
+                        <div class="plan-price">
+                            <span class="price-number">R$ 12</span>
+                            <span class="price-period">/funcionário/mês</span>
+                        </div>
+                    </div>
+                    
+                    <ul class="plan-features">
+                        <li>✅ Tudo do Starter +</li>
+                        <li>✅ Chat ilimitado com Dr. Ana</li>
+                        <li>✅ Exercícios personalizados</li>
+                        <li>✅ Relatórios detalhados</li>
+                        <li>✅ Suporte prioritário</li>
+                        <li>✅ Integração básica</li>
+                    </ul>
+                    
+                    <button class="btn-primary" onclick="selectPlan('business')">
+                        Solicitar Orçamento
+                    </button>
+                </div>
+
+                <!-- Enterprise Plan -->
+                <div class="pricing-card">
+                    <div class="plan-header">
+                        <h3 class="plan-name">ENTERPRISE</h3>
+                        <p class="plan-subtitle">201+ funcionários</p>
+                        <div class="plan-price">
+                            <span class="price-number">R$ 8</span>
+                            <span class="price-period">/funcionário/mês</span>
+                        </div>
+                    </div>
+                    
+                    <ul class="plan-features">
+                        <li>✅ Tudo do Business +</li>
+                        <li>✅ Dashboard executivo</li>
+                        <li>✅ Integração completa</li>
+                        <li>✅ Treinamentos para gestores</li>
+                        <li>✅ Webinars mensais</li>
+                        <li>✅ Account manager dedicado</li>
+                        <li>✅ SLA garantido</li>
+                    </ul>
+                    
+                    <button class="btn-outline" onclick="selectPlan('enterprise')">
+                        Solicitar Orçamento
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Pronto para Transformar sua Empresa?</h2>
+                <p>Agende uma demonstração gratuita e veja como podemos revolucionar o bem-estar na sua organização</p>
+                <button class="btn-primary" onclick="openQuoteModal()">
+                    Agendar Demonstração Gratuita
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <h3>💚 MindCare Pro</h3>
+                    <p>Transformando empresas através do bem-estar mental</p>
+                </div>
+                <div class="footer-contact">
+                    <p>📧 contato@mindcarepro.com</p>
+                    <p>📱 (11) 99999-9999</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 MindCare Pro. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Quote Modal -->
+    <div id="quote-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Solicitar Orçamento Personalizado</h3>
+                <span class="close" onclick="closeQuoteModal()">&times;</span>
+            </div>
+            
+            <form id="quote-form" class="quote-form">
+                <div class="form-group">
+                    <label for="company">Empresa *</label>
+                    <input type="text" id="company" name="company" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Nome Completo *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Corporativo *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Telefone</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="company-size">Nº de Funcionários *</label>
+                        <input type="number" id="company-size" name="company-size" required min="1">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Mensagem (opcional)</label>
+                    <textarea id="message" name="message" rows="4" placeholder="Conte-nos mais sobre suas necessidades..."></textarea>
+                </div>
+                
+                <div id="selected-plan-info" class="selected-plan-info hidden">
+                    <p>Plano Selecionado: <strong id="selected-plan-name"></strong></p>
+                </div>
+                
+                <button type="submit" class="btn-primary">
+                    Enviar Solicitação
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>✅ Solicitação Enviada com Sucesso!</h3>
+                <span class="close" onclick="closeSuccessModal()">&times;</span>
+            </div>
+            
+            <div class="success-content">
+                <p>Recebemos sua solicitação de orçamento!</p>
+                <p>Nossa equipe entrará em contato em até <strong>24 horas</strong> para agendar uma demonstração personalizada.</p>
+                
+                <div class="next-steps">
+                    <h4>Próximos Passos:</h4>
+                    <ul>
+                        <li>📞 Ligação de confirmação em até 4 horas</li>
+                        <li>📅 Agendamento da demonstração</li>
+                        <li>📊 Apresentação personalizada para sua empresa</li>
+                        <li>💰 Proposta comercial sob medida</li>
+                    </ul>
+                </div>
+                
+                <button class="btn-primary" onclick="closeSuccessModal()">
+                    Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
