@@ -1,21 +1,24 @@
 #!/usr/bin/env python3
 """
-Backend API Testing for Stripe Payment Integration
-Tests all payment-related endpoints for the Mental Health App
+Backend API Testing Script for Corporate Quote Endpoints
+Tests the newly created corporate quote endpoints
 """
 
 import asyncio
 import aiohttp
 import json
-import sys
+import os
 from datetime import datetime
-from typing import Dict, Any, Optional
+from dotenv import load_dotenv
 
-# Configuration
-BASE_URL = "https://mindwell-23.preview.emergentagent.com/api"
-TEST_USER_EMAIL = "testuser@example.com"
-TEST_USER_PASSWORD = "testpass123"
-TEST_USER_NAME = "Test User"
+# Load environment variables
+load_dotenv('/app/frontend/.env')
+
+# Get backend URL from environment
+BACKEND_URL = os.getenv('EXPO_PUBLIC_BACKEND_URL', 'https://mindwell-23.preview.emergentagent.com')
+API_BASE_URL = f"{BACKEND_URL}/api"
+
+print(f"Testing backend at: {API_BASE_URL}")
 
 class BackendTester:
     def __init__(self):
