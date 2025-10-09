@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Backend API Testing Script for Corporate Quote Endpoints
-Tests the newly created corporate quote endpoints
+Backend API Testing Script for Corporate Checkout Endpoint
+Tests the newly created corporate checkout endpoint
 """
 
 import asyncio
@@ -20,7 +20,7 @@ API_BASE_URL = f"{BACKEND_URL}/api"
 
 print(f"Testing backend at: {API_BASE_URL}")
 
-class CorporateQuoteAPITester:
+class CorporateCheckoutAPITester:
     def __init__(self):
         self.session = None
         self.test_results = []
