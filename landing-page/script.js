@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (targetSection) {
                 const headerOffset = 80;
-                const elementPosition = targetSection.getBoundingClientPosition().top;
+                const elementPosition = targetSection.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
                 
                 window.scrollTo({
@@ -50,10 +50,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 
                 // Track navigation
-                trackEvent('navigation_click', {
-                    'section': targetId.replace('#', ''),
-                    'source': 'header_nav'
-                });
+                if (typeof trackEvent === 'function') {
+                    trackEvent('navigation_click', {
+                        'section': targetId.replace('#', ''),
+                        'source': 'header_nav'
+                    });
+                }
+            } else {
+                console.warn('Target section not found:', targetId);
             }
         });
     });
