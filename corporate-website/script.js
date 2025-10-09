@@ -47,6 +47,7 @@ const pricingPlans = {
 // State management
 let selectedPlan = null;
 let calculatedEmployeeCount = 0;
+let purchasePlan = null;
 
 // Utility functions
 function formatCurrency(value) {
