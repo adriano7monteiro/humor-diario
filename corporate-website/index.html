@@ -320,6 +320,98 @@
         </div>
     </div>
 
+    <!-- Purchase Modal -->
+    <div id="purchase-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>💳 Finalizar Compra</h3>
+                <span class="close" onclick="closePurchaseModal()">&times;</span>
+            </div>
+            
+            <div class="purchase-content">
+                <div id="purchase-plan-info" class="purchase-plan-info">
+                    <h4 id="purchase-plan-name">BUSINESS</h4>
+                    <p id="purchase-plan-details">Para até 200 funcionários</p>
+                </div>
+
+                <form id="purchase-form" class="purchase-form">
+                    <div class="form-group">
+                        <label for="purchase-company">Empresa *</label>
+                        <input type="text" id="purchase-company" name="company" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="purchase-name">Nome Completo *</label>
+                            <input type="text" id="purchase-name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="purchase-email">Email Corporativo *</label>
+                            <input type="email" id="purchase-email" name="email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="purchase-employees">Nº de Funcionários *</label>
+                            <input type="number" id="purchase-employees" name="employees" required min="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="purchase-phone">Telefone</label>
+                            <input type="tel" id="purchase-phone" name="phone">
+                        </div>
+                    </div>
+                    
+                    <div id="purchase-pricing" class="purchase-pricing">
+                        <div class="pricing-breakdown">
+                            <div class="pricing-row">
+                                <span>Plano selecionado:</span>
+                                <span id="selected-plan-display">BUSINESS</span>
+                            </div>
+                            <div class="pricing-row">
+                                <span>Número de funcionários:</span>
+                                <span id="employees-display">0</span>
+                            </div>
+                            <div class="pricing-row">
+                                <span>Preço por funcionário:</span>
+                                <span id="price-per-employee-display">R$ 12/mês</span>
+                            </div>
+                            <div class="pricing-row total-row">
+                                <span><strong>Total mensal:</strong></span>
+                                <span><strong id="total-monthly-display">R$ 0</strong></span>
+                            </div>
+                            <div class="pricing-row annual-row">
+                                <span>Total anual (20% desconto):</span>
+                                <span id="total-annual-display">R$ 0</span>
+                            </div>
+                        </div>
+
+                        <div class="payment-info">
+                            <h4>💳 Métodos de Pagamento Disponíveis:</h4>
+                            <div class="payment-methods">
+                                <div class="payment-method">
+                                    <span class="payment-icon">💳</span>
+                                    <span>Cartão de Crédito/Débito</span>
+                                </div>
+                                <div class="payment-method">
+                                    <span class="payment-icon">📱</span>
+                                    <span>PIX (Instantâneo)</span>
+                                </div>
+                            </div>
+                            <p class="payment-note">
+                                Você será redirecionado para o checkout seguro do Stripe.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary btn-purchase">
+                        Prosseguir para Pagamento
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Success Modal -->
     <div id="success-modal" class="modal">
         <div class="modal-content">
