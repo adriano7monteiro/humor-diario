@@ -691,6 +691,141 @@ body {
     }
 }
 
+/* Plan Actions */
+.plan-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.btn-buy {
+    background: #22C55E;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+}
+
+.btn-buy:hover {
+    background: #16A34A;
+    transform: translateY(-1px);
+}
+
+/* Purchase Modal Styles */
+.purchase-content {
+    padding: 0 24px 24px;
+}
+
+.purchase-plan-info {
+    background: #EEF2FF;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    text-align: center;
+    border-left: 4px solid #4F46E5;
+}
+
+.purchase-plan-info h4 {
+    color: #4F46E5;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.purchase-plan-info p {
+    color: #64748B;
+    font-size: 14px;
+}
+
+.purchase-pricing {
+    background: #F8FAFC;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    border: 1px solid #E5E7EB;
+}
+
+.pricing-breakdown {
+    margin-bottom: 20px;
+}
+
+.pricing-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.pricing-row:last-child {
+    border-bottom: none;
+}
+
+.total-row {
+    background: #EEF2FF;
+    padding: 12px 16px;
+    margin: 12px -16px 8px;
+    border-radius: 8px;
+    border: none;
+}
+
+.annual-row {
+    color: #22C55E;
+    font-size: 14px;
+    border: none;
+}
+
+.payment-info h4 {
+    color: #1E293B;
+    margin-bottom: 12px;
+    font-size: 16px;
+}
+
+.payment-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.payment-method {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 6px;
+}
+
+.payment-icon {
+    font-size: 18px;
+}
+
+.payment-note {
+    font-size: 12px;
+    color: #64748B;
+    font-style: italic;
+    text-align: center;
+}
+
+.btn-purchase {
+    background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+    font-size: 18px;
+    padding: 16px 32px;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.btn-purchase:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4);
+}
+
 /* Utility Classes */
 .hidden {
     display: none;
