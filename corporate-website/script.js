@@ -164,6 +164,97 @@ function resetQuoteForm() {
     updateSelectedPlanInfo();
 }
 
+// Purchase modal functions
+function buyPlan(planKey) {
+    purchasePlan = pricingPlans[planKey];
+    openPurchaseModal();
+    updatePurchaseModal();
+}
+
+function openPurchaseModal() {
+    document.getElementById('purchase-modal').classList.add('show');
+    document.body.style.overflow = 'hidden';
+}
+
+function closePurchaseModal() {
+    document.getElementById('purchase-modal').classList.remove('show');
+    document.body.style.overflow = 'auto';
+    resetPurchaseForm();
+}
+
+function resetPurchaseForm() {
+    document.getElementById('purchase-form').reset();
+    purchasePlan = null;
+}
+
+function updatePurchaseModal() {
+    if (!purchasePlan) return;
+    
+    // Update plan info
+    document.getElementById('purchase-plan-name').textContent = purchasePlan.name;
+    document.getElementById('purchase-plan-details').textContent = 
+        `Para até ${purchasePlan.maxEmployees === 999999 ? '∞' : purchasePlan.maxEmployees} funcionários`;
+    
+    // Update pricing display
+    document.getElementById('selected-plan-display').textContent = purchasePlan.name;
+    document.getElementById('price-per-employee-display').textContent = 
+        `R$ ${purchasePlan.pricePerEmployee}/mês`;
+    
+    // Update employee count listener
+    const employeesInput = document.getElementById('purchase-employees');
+    employeesInput.addEventListener('input', updatePurchasePricing);
+    
+    // Initial pricing update
+    updatePurchasePricing();
+}
+
+function updatePurchasePricing() {
+    if (!purchasePlan) return;
+    
+    const employeesInput = document.getElementById('purchase-employees');
+    const employees = parseInt(employeesInput.value) || 0;
+    
+    const { monthlyPrice, annualPrice } = calculatePrice(purchasePlan, employees);
+    
+    document.getElementById('employees-display').textContent = employees.toString();
+    document.getElementById('total-monthly-display').textContent = 
+        `R$ ${monthlyPrice.toLocaleString('pt-BR')}`;
+    document.getElementById('total-annual-display').textContent = 
+        `R$ ${annualPrice.toLocaleString('pt-BR')}`;
+}
+
+// Corporate checkout submission
+async function submitCorporateCheckout(formData) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/corporate/checkout`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                company: formData.get('company'),
+                name: formData.get('name'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                employees: parseInt(formData.get('employees')),
+                plan: purchasePlan.name.toLowerCase(),
+                origin_url: window.location.origin
+            })
+        });
+        
+        if (response.ok) {
+            const result = await response.json();
+            return result;
+        } else {
+            const error = await response.json();
+            throw new Error(error.detail || 'Failed to create checkout');
+        }
+    } catch (error) {
+        console.error('Corporate checkout error:', error);
+        throw error;
+    }
+}
+
 // Form submission
 async function submitQuoteRequest(formData) {
     try {
