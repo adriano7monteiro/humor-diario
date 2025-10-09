@@ -2489,6 +2489,89 @@ async def get_corporate_quotes(
         logger.error(f"Error fetching corporate quotes: {e}")
         raise HTTPException(status_code=500, detail="Erro ao buscar orçamentos")
 
+@api_router.post("/corporate/checkout")
+async def create_corporate_checkout(request: CorporateCheckoutRequest):
+    """Create Stripe checkout session for corporate license purchase"""
+    try:
+        # Define plan pricing
+        plan_prices = {
+            'starter': 15,
+            'business': 12, 
+            'enterprise': 8
+        }
+        
+        if request.plan not in plan_prices:
+            raise HTTPException(status_code=400, detail="Plano inválido")
+        
+        price_per_employee = plan_prices[request.plan]
+        total_amount = price_per_employee * request.employees
+        
+        # Initialize Stripe checkout
+        webhook_url = f"{request.origin_url}/api/webhook/stripe/corporate"
+        stripe_checkout = StripeCheckout(api_key=STRIPE_API_KEY, webhook_url=webhook_url)
+        
+        # Create checkout session URLs
+        success_url = f"{request.origin_url}/corporate-success?session_id={{CHECKOUT_SESSION_ID}}"
+        cancel_url = f"{request.origin_url}"
+        
+        # Create checkout session request
+        checkout_request = CheckoutSessionRequest(
+            amount=total_amount,
+            currency="brl",
+            success_url=success_url,
+            cancel_url=cancel_url,
+            metadata={
+                "type": "corporate_license",
+                "company": request.company,
+                "contact_name": request.name,
+                "contact_email": request.email,
+                "contact_phone": request.phone or "",
+                "employees": str(request.employees),
+                "plan": request.plan,
+                "price_per_employee": str(price_per_employee)
+            }
+        )
+        
+        # Create session with Stripe
+        session = await stripe_checkout.create_checkout_session(checkout_request)
+        
+        # Create corporate payment transaction record
+        transaction = {
+            "id": str(uuid.uuid4()),
+            "session_id": session.session_id,
+            "type": "corporate_license",
+            "company": request.company,
+            "contact_name": request.name, 
+            "contact_email": request.email,
+            "contact_phone": request.phone,
+            "employees": request.employees,
+            "plan": request.plan,
+            "price_per_employee": price_per_employee,
+            "total_amount": total_amount,
+            "currency": "brl",
+            "payment_status": "pending",
+            "status": "initiated",
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow()
+        }
+        
+        # Insert transaction into database
+        await db.corporate_transactions.insert_one(transaction)
+        
+        logger.info(f"Corporate checkout created for {request.company} - {request.employees} employees")
+        
+        return {
+            "success": True,
+            "checkout_url": session.url,
+            "session_id": session.session_id
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error creating corporate checkout: {e}")
+        raise HTTPException(status_code=500, detail="Erro ao criar checkout corporativo")
+
 # Include the router in the main app (MUST be after all endpoint definitions)
 app.include_router(api_router)
 
