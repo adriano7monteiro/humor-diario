@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perguntas Frequentes (FAQ) - MindCare</title>
+    <meta name="description" content="Perguntas e respostas sobre o MindCare. Tire suas dúvidas sobre funcionalidades, privacidade, uso e suporte.">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .faq-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        
+        .faq-title {
+            font-size: 36px;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 16px;
+        }
+        
+        .faq-subtitle {
+            font-size: 18px;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .search-faq {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 32px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-faq input {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            color: #1e293b;
+            background: transparent;
+        }
+        
+        .search-faq input::placeholder {
+            color: #94a3b8;
+        }
+        
+        .faq-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+        
+        .category-filter {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: #64748b;
+        }
+        
+        .category-filter.active {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+        
+        .category-filter:hover {
+            border-color: #667eea;
+        }
+        
+        .faq-section {
+            margin-bottom: 32px;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .faq-item {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .faq-item.active {
+            border-color: #667eea;
+        }
+        
+        .faq-question {
+            padding: 20px 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            transition: background-color 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            background: #f8fafc;
+        }
+        
+        .faq-question-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e293b;
+            flex: 1;
+            margin-right: 16px;
+        }
+        
+        .faq-icon {
+            font-size: 20px;
+            color: #667eea;
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+        
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: #f8fafc;
+        }
+        
+        .faq-answer-content {
+            padding: 0 24px 24px 24px;
+            color: #4b5563;
+            line-height: 1.6;
+        }
+        
+        .faq-answer-content p {
+            margin-bottom: 16px;
+        }
+        
+        .faq-answer-content ul {
+            margin: 16px 0;
+            padding-left: 20px;
+        }
+        
+        .faq-answer-content li {
+            margin-bottom: 8px;
+        }
+        
+        .faq-answer-content strong {
+            color: #1e293b;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+        
+        .warning-box {
+            background: #fef2f2;
+            border: 1px solid #fca5a5;
+            color: #dc2626;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 24px;
+            transition: color 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: #4f46e5;
+        }
+        
+        .contact-cta {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            margin: 48px 0;
+        }
+        
+        .contact-cta h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 12px;
+        }
+        
+        .contact-cta p {
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+        
+        .contact-btn {
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .contact-btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .faq-categories {
+                grid-template-columns: 1fr;
+            }
+            
+            .faq-question {
+                padding: 16px 20px;
+            }
+            
+            .faq-answer-content {
+                padding: 0 20px 20px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav-brand">
+                <a href="index.html" style="text-decoration: none;">
+                    <span class="logo">💚 MindCare</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="faq-container">
+        <a href="index.html" class="back-link">
+            ← Voltar ao Início
+        </a>
+
+        <div class="faq-header">
+            <h1 class="faq-title">Perguntas Frequentes</h1>
+            <p class="faq-subtitle">
+                Encontre respostas rápidas para as dúvidas mais comuns sobre o MindCare. 
+                Se não encontrar o que procura, entre em contato conosco.
+            </p>
+            
+            <div class="search-faq">
+                <input 
+                    type="text" 
+                    placeholder="🔍 Buscar por palavra-chave..."
+                    onkeyup="searchFAQ(this.value)"
+                >
+            </div>
+        </div>
+
+        <div class="faq-categories">
+            <div class="category-filter active" onclick="filterCategory('all')">
+                📋 Todas
+            </div>
+            <div class="category-filter" onclick="filterCategory('uso')">
+                🚀 Primeiros Passos
+            </div>
+            <div class="category-filter" onclick="filterCategory('ia')">
+                🤖 Dr. Ana (IA)
+            </div>
+            <div class="category-filter" onclick="filterCategory('privacidade')">
+                🔒 Privacidade
+            </div>
+            <div class="category-filter" onclick="filterCategory('tecnico')">
+                🛠️ Técnico
+            </div>
+        </div>
+
+        <section class="faq-section" data-category="uso">
+            <h2 class="section-title">🚀 Primeiros Passos</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span class="faq-question-text">O MindCare é realmente gratuito?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p><strong>Sim! O MindCare é 100% gratuito.</strong></p>
+                        <p>Todas as funcionalidades estão disponíveis sem custo:</p>
+                        <ul>
+                            <li>Conversas ilimitadas com Dr. Ana (IA)</li>
+                            <li>Monitoramento de humor</li>
+                            <li>Exercícios de respiração e mindfulness</li>
+                            <li>Sistema de gamificação (estrelas e níveis)</li>
+                            <li>Diário de gratidão</li>
+                            <li>Recursos de emergência (SOS)</li>
+                        </ul>
+                        <p>Não cobramos taxa de instalação, mensalidade ou por uso. Nossa missão é democratizar o acesso à saúde mental.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span class="faq-question-text">Como criar minha conta no MindCare?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Criar sua conta é simples e rápido:</p>
+                        <ol>
+                            <li><strong>Baixe o app</strong> na App Store ou Google Play</li>
+                            <li><strong>Abra o MindCare</strong> e toque em "Criar Conta"</li>
+                            <li><strong>Digite seu email</strong> e crie uma senha segura</li>
+                            <li><strong>Complete seu perfil</strong> (opcional, mas recomendado)</li>
+                            <li><strong>Comece a usar!</strong> Sua primeira conversa com Dr. Ana</li>
+                        </ol>
+                        <p>Não é necessário cartão de crédito ou dados bancários.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span class="faq-question-text">Preciso ter conhecimento técnico para usar?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p><strong>Absolutamente não!</strong> O MindCare foi projetado para ser intuitivo e acessível a todos.</p>
+                        <p>Nossa interface é simples:</p>
+                        <ul>
+                            <li>Botões claros e grandes para fácil navegação</li>
+                            <li>Linguagem simples e compreensível</li>
+                            <li>Tutorial integrado na primeira utilização</li>
+                            <li>Suporte disponível para qualquer dúvida</li>
+                        </ul>
+                        <p>Se você sabe usar WhatsApp, consegue usar o MindCare!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section" data-category="ia">
+            <h2 class="section-title">🤖 Dr. Ana (IA)</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span class="faq-question-text">Dr. Ana substitui um psicólogo real?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <div class="warning-box">
+                            <strong>❌ NÃO. Dr. Ana não substitui acompanhamento psicológico ou psiquiátrico profissional.</strong>
+                        </div>
+                        <p>Dr. Ana é uma <strong>ferramenta de apoio</strong> que:</p>
+                        <ul>
+                            <li>Oferece suporte emocional 24/7</li>
+                            <li>Ajuda com técnicas de autoconhecimento</li>
+                            <li>Fornece orientações baseadas em terapia cognitivo-comportamental</li>
+                            <li>Complementa tratamentos profissionais</li>
+                        </ul>
+                        <p><strong>Sempre procure ajuda profissional para:</strong></p>
+                        <ul>
+                            <li>Diagnósticos e tratamentos</li>
+                            <li>Transtornos mentais graves</li>
+                            <li>Ideação suicida ou automutilação</li>
+                            <li>Situações de crise</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span class="faq-question-text">Como Dr. Ana funciona?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Dr. Ana utiliza <strong>inteligência artificial avançada</strong> treinada em:</p>
+                        <ul>
+                            <li>Técnicas de terapia cognitivo-comportamental (TCC)</li>
+                            <li>Psicologia positiva e mindfulness</li>
+                            <li>Protocolos de apoio emocional</li>
+                            <li>Estratégias de manejo de estresse e ansiedade</li>
+                        </ul>
+                        <div class="highlight-box">
+                            <strong>🔒 Importante:</strong> Dr. Ana aprende com as conversas para melhorar suas respostas, mas nunca compartilha seus dados pessoais.
+                        </div>
+                        <p><strong>A IA consegue:</strong></p>
+                        <ul>
+                            <li>Identificar padrões emocionais</li>
+                            <li>Sugerir exercícios personalizados</li>
+                            <li>Oferecer perspectivas diferentes</li>
+                            <li>Lembrar de conversas anteriores</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span class="faq-question-text">Posso conversar sobre qualquer assunto?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p><strong>Sim, pode falar abertamente sobre:</strong></p>
+                        <ul>
+                            <li>Sentimentos e emoções</li>
+                            <li>Relacionamentos e família</li>
+                            <li>Trabalho e estudos</li>
+                            <li>Ansiedade e estresse</li>
+                            <li>Autoestima e autoconhecimento</li>
+                            <li>Objetivos e sonhos</li>
+                        </ul>
+                        <div class="warning-box">
+                            <strong>⚠️ Atenção:</strong> Em casos de emergência, ideação suicida ou crise grave, Dr. Ana direcionará você para recursos de ajuda profissional imediata.
+                        </div>
+                        <p>Dr. Ana é programada para ser empática, não julgamental e sempre respeitosa.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section" data-category="privacidade">
+            <h2 class="section-title">🔒 Privacidade e Segurança</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span class="faq-question-text">Meus dados e conversas estão seguros?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p><strong>Sim! Sua privacidade é nossa prioridade máxima.</strong></p>
+                        <div class="highlight-box">
+                            <strong>🔐 Proteções implementadas:</strong><br>
+                            • Criptografia AES-256 em repouso<br>
+                            • TLS 1.3 para transferência de dados<br>
+                            • Servidores seguros no Brasil<br>
+                            • Conformidade total com LGPD
+                        </div>
+                        <p><strong>O que fazemos:</strong></p>
+                        <ul>
+                            <li>Criptografamos todas suas conversas</li>
+                            <li>Nunca vendemos seus dados</li>
+                            <li>Acesso restrito apenas à equipe autorizada</li>
+                            <li>Auditorias de segurança regulares</li>
+                        </ul>
+                        <p><strong>O que NÃO fazemos:</strong></p>
+                        <ul>
+                            <li>Compartilhar dados com terceiros para publicidade</li>
+                            <li>Usar suas conversas para fins comerciais</li>
+                            <li>Armazenar mais dados que o necessário</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span class="faq-question-text">Posso deletar meus dados?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p><strong>Sim! Você tem controle total sobre seus dados.</strong></p>
+                        <p><strong>Direitos LGPD que você pode exercer:</strong></p>
+                        <ul>
+                            <li><strong>Deletar conta:</strong> Remove todos os dados permanentemente</li>
+                            <li><strong>Exportar dados:</strong> Baixe suas conversas e informações</li>
+                            <li><strong>Corrigir dados:</strong> Atualize informações incorretas</li>
+                            <li><strong>Limitar processamento:</strong> Restrinja uso de dados específicos</li>
+                        </ul>
+                        <p><strong>Como solicitar:</strong></p>
+                        <ol>
+                            <li>Envie email para privacidade@mindcare.com</li>
+                            <li>Especifique qual direito deseja exercer</li>
+                            <li>Aguarde resposta em até 15 dias úteis</li>
+                        </ol>
+                        <p>O processo é gratuito e não fazemos questionamentos desnecessários.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section" data-category="tecnico">
+            <h2 class="section-title">🛠️ Questões Técnicas</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span class="faq-question-text">O app funciona offline?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p><strong>Parcialmente sim!</strong> Algumas funcionalidades trabalham offline:</p>
+                        <p><strong>✅ Funciona offline:</strong></p>
+                        <ul>
+                            <li>Registro de humor (sincroniza depois)</li>
+                            <li>Exercícios de respiração</li>
+                            <li>Diário de gratidão</li>
+                            <li>Visualização de dados já carregados</li>
+                            <li>Técnicas de emergência (botão SOS)</li>
+                        </ul>
+                        <p><strong>❌ Precisa de internet:</strong></p>
+                        <ul>
+                            <li>Conversas com Dr. Ana</li>
+                            <li>Sincronização de dados entre dispositivos</li>
+                            <li>Atualizações de conteúdo</li>
+                        </ul>
+                        <p>Quando a conexão retornar, todos os dados são sincronizados automaticamente.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span class="faq-question-text">Encontrei um bug. Como reportar?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p><strong>Agradecemos seu feedback! Ajude-nos a melhorar:</strong></p>
+                        <p><strong>Como reportar:</strong></p>
+                        <ol>
+                            <li>Envie email para suporte@mindcare.com</li>
+                            <li>Use o assunto "Bug Report - [descrição breve]"</li>
+                            <li>Inclua informações detalhadas (veja abaixo)</li>
+                        </ol>
+                        <p><strong>Informações úteis para incluir:</strong></p>
+                        <ul>
+                            <li>Modelo do celular e sistema operacional</li>
+                            <li>Versão do app (Settings > Sobre)</li>
+                            <li>Passos para reproduzir o problema</li>
+                            <li>Screenshots ou vídeos (se possível)</li>
+                            <li>Mensagem de erro exata (se houver)</li>
+                        </ol>
+                        <p><strong>Tempo de resposta:</strong> 24-48 horas úteis</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span class="faq-question-text">Posso usar em vários dispositivos?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p><strong>Sim! Sua conta sincroniza entre dispositivos.</strong></p>
+                        <p><strong>Funciona em:</strong></p>
+                        <ul>
+                            <li>iPhone e iPad (iOS 13+)</li>
+                            <li>Android (versão 7.0+)</li>
+                            <li>Tablets Android</li>
+                        </ul>
+                        <p><strong>Dados sincronizados:</strong></p>
+                        <ul>
+                            <li>Conversas com Dr. Ana</li>
+                            <li>Histórico de humor</li>
+                            <li>Progresso e estrelas</li>
+                            <li>Configurações e preferências</li>
+                        </ul>
+                        <p><strong>Como usar:</strong></p>
+                        <ol>
+                            <li>Faça login com mesmo email/senha</li>
+                            <li>Aguarde sincronização automática</li>
+                            <li>Todos os dados aparecerão</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="contact-cta">
+            <h3>Não encontrou sua resposta?</h3>
+            <p>Nossa equipe de suporte está pronta para ajudar você com qualquer dúvida específica.</p>
+            <a href="contact.html" class="contact-btn">Falar com Suporte</a>
+        </div>
+
+        <div style="text-align: center; margin: 48px 0; padding-top: 24px; border-top: 1px solid #e2e8f0;">
+            <p><a href="index.html" class="back-link">← Voltar ao Início</a></p>
+        </div>
+    </main>
+
+    <footer style="background: #1e293b; color: white; text-align: center; padding: 24px 0;">
+        <div class="container">
+            <p>&copy; 2024 MindCare. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleFAQ(element) {
+            const faqItem = element.closest('.faq-item');
+            const answer = faqItem.querySelector('.faq-answer');
+            const isActive = faqItem.classList.contains('active');
+            
+            // Close all other FAQs
+            document.querySelectorAll('.faq-item.active').forEach(item => {
+                if (item !== faqItem) {
+                    item.classList.remove('active');
+                    item.querySelector('.faq-answer').style.maxHeight = '0';
+                }
+            });
+            
+            // Toggle current FAQ
+            if (isActive) {
+                faqItem.classList.remove('active');
+                answer.style.maxHeight = '0';
+            } else {
+                faqItem.classList.add('active');
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+            }
+            
+            // Track FAQ interaction
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'faq_toggle', {
+                    'question': element.querySelector('.faq-question-text').textContent,
+                    'action': isActive ? 'close' : 'open'
+                });
+            }
+        }
+
+        function filterCategory(category) {
+            // Update active filter
+            document.querySelectorAll('.category-filter').forEach(filter => {
+                filter.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Show/hide sections
+            const sections = document.querySelectorAll('.faq-section');
+            sections.forEach(section => {
+                if (category === 'all' || section.dataset.category === category) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+            
+            // Close all open FAQs
+            document.querySelectorAll('.faq-item.active').forEach(item => {
+                item.classList.remove('active');
+                item.querySelector('.faq-answer').style.maxHeight = '0';
+            });
+        }
+
+        function searchFAQ(query) {
+            const faqItems = document.querySelectorAll('.faq-item');
+            const sections = document.querySelectorAll('.faq-section');
+            
+            if (query.length < 2) {
+                // Show all items if query is too short
+                faqItems.forEach(item => item.style.display = 'block');
+                sections.forEach(section => section.style.display = 'block');
+                return;
+            }
+            
+            const searchTerm = query.toLowerCase();
+            let hasVisibleItems = {};
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question-text').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer-content').textContent.toLowerCase();
+                const section = item.closest('.faq-section');
+                const sectionCategory = section.dataset.category;
+                
+                if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                    item.style.display = 'block';
+                    hasVisibleItems[sectionCategory] = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // Show/hide sections based on visible items
+            sections.forEach(section => {
+                const category = section.dataset.category;
+                section.style.display = hasVisibleItems[category] ? 'block' : 'none';
+            });
+        }
+
+        // Track page view
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'page_view', {
+                'page_title': 'FAQ',
+                'page_location': window.location.href
+            });
+        }
+        
+        console.log('❓ FAQ carregada');
+    </script>
+</body>
+</html>
