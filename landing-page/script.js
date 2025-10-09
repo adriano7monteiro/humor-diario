@@ -35,22 +35,37 @@ document.addEventListener('DOMContentLoaded', function() {
     const navLinks = document.querySelectorAll('a[href^="#"]');
     console.log('🔗 Found navigation links:', navLinks.length);
     
-    navLinks.forEach(link => {
+    navLinks.forEach((link, index) => {
+        console.log(`🔗 Setting up link ${index + 1}:`, link.getAttribute('href'));
+        
         link.addEventListener('click', function(e) {
+            console.log('🖱️ Navigation link clicked:', this.getAttribute('href'));
             e.preventDefault();
             
             const targetId = this.getAttribute('href');
+            console.log('🎯 Looking for target:', targetId);
+            
             const targetSection = document.querySelector(targetId);
+            console.log('📍 Target section found:', !!targetSection);
             
             if (targetSection) {
                 const headerOffset = 80;
                 const elementPosition = targetSection.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
                 
+                console.log('📏 Scroll calculation:', {
+                    elementPosition,
+                    pageYOffset: window.pageYOffset,
+                    headerOffset,
+                    finalPosition: offsetPosition
+                });
+                
                 window.scrollTo({
                     top: offsetPosition,
                     behavior: 'smooth'
                 });
+                
+                console.log('✅ Scroll initiated');
                 
                 // Track navigation
                 if (typeof trackEvent === 'function') {
@@ -60,7 +75,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 }
             } else {
-                console.warn('Target section not found:', targetId);
+                console.warn('❌ Target section not found:', targetId);
+                // List all sections with IDs for debugging
+                const allSections = document.querySelectorAll('[id]');
+                console.log('📋 Available sections:', Array.from(allSections).map(s => '#' + s.id));
             }
         });
     });
