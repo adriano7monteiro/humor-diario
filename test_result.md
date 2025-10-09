@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Test the newly created corporate checkout endpoint"
+user_problem_statement: "Complete the landing page legal structure by creating cookies.html page and linking all support/legal pages correctly"
 
 backend:
   - task: "POST /api/corporate/quote endpoint"
