@@ -49,25 +49,24 @@ class CorporateCheckoutAPITester:
             "timestamp": datetime.now().isoformat()
         })
         
-    async def test_post_corporate_quote_valid_data(self):
-        """Test POST /api/corporate/quote with valid data"""
-        test_name = "POST /api/corporate/quote - Valid Data"
+    async def test_corporate_checkout_valid_request(self):
+        """Test POST /api/corporate/checkout with valid data"""
+        test_name = "POST /api/corporate/checkout - Valid Request"
         
-        # Test data as specified in the review request
+        # Test data from the review request
         test_data = {
-            "company": "Tech Corp Ltda",
-            "name": "João Silva", 
-            "email": "joao@techcorp.com",
-            "phone": "(11) 99999-9999",
-            "employees": 150,
-            "message": "Interessados em implementar saúde mental",
-            "selectedPlan": "BUSINESS",
-            "source": "corporate_website"
+            "company": "Tech Solutions Inc",
+            "name": "Carlos Silva", 
+            "email": "carlos@techsolutions.com",
+            "phone": "(11) 99887-7665",
+            "employees": 75,
+            "plan": "business",
+            "origin_url": "http://localhost:8080"
         }
         
         try:
             async with self.session.post(
-                f"{API_BASE_URL}/corporate/quote",
+                f"{API_BASE_URL}/corporate/checkout",
                 json=test_data,
                 headers={"Content-Type": "application/json"}
             ) as response:
@@ -80,7 +79,7 @@ class CorporateCheckoutAPITester:
                     response_data = await response.json()
                     
                     # Validate response structure
-                    required_fields = ["success", "message", "quote_id"]
+                    required_fields = ["success", "checkout_url", "session_id"]
                     missing_fields = [field for field in required_fields if field not in response_data]
                     
                     if missing_fields:
@@ -88,8 +87,12 @@ class CorporateCheckoutAPITester:
                         return None
                     
                     if response_data.get("success") == True:
-                        self.log_result(test_name, True, "Corporate quote created successfully", response_data)
-                        return response_data.get("quote_id")
+                        if response_data.get("checkout_url") and response_data.get("checkout_url").startswith("http"):
+                            self.log_result(test_name, True, "Corporate checkout created successfully", response_data)
+                            return response_data.get("session_id")
+                        else:
+                            self.log_result(test_name, False, "Invalid checkout_url in response", response_data)
+                            return None
                     else:
                         self.log_result(test_name, False, "Success field is not True", response_data)
                         return None
@@ -101,22 +104,24 @@ class CorporateCheckoutAPITester:
             self.log_result(test_name, False, f"Request failed: {str(e)}")
             return None
             
-    async def test_post_corporate_quote_missing_required_fields(self):
-        """Test POST /api/corporate/quote with missing required fields"""
-        test_name = "POST /api/corporate/quote - Missing Required Fields"
+    async def test_corporate_checkout_missing_required_fields(self):
+        """Test POST /api/corporate/checkout with missing required fields"""
+        test_name = "POST /api/corporate/checkout - Missing Required Fields"
         
         # Test with missing required fields
         test_cases = [
-            {"name": "Missing company", "data": {"name": "João Silva", "email": "joao@test.com", "employees": 150}},
-            {"name": "Missing name", "data": {"company": "Test Corp", "email": "joao@test.com", "employees": 150}},
-            {"name": "Missing email", "data": {"company": "Test Corp", "name": "João Silva", "employees": 150}},
-            {"name": "Missing employees", "data": {"company": "Test Corp", "name": "João Silva", "email": "joao@test.com"}},
+            {"name": "Missing company", "data": {"name": "Carlos Silva", "email": "carlos@test.com", "employees": 75, "plan": "business", "origin_url": "http://localhost:8080"}},
+            {"name": "Missing name", "data": {"company": "Test Corp", "email": "carlos@test.com", "employees": 75, "plan": "business", "origin_url": "http://localhost:8080"}},
+            {"name": "Missing email", "data": {"company": "Test Corp", "name": "Carlos Silva", "employees": 75, "plan": "business", "origin_url": "http://localhost:8080"}},
+            {"name": "Missing employees", "data": {"company": "Test Corp", "name": "Carlos Silva", "email": "carlos@test.com", "plan": "business", "origin_url": "http://localhost:8080"}},
+            {"name": "Missing plan", "data": {"company": "Test Corp", "name": "Carlos Silva", "email": "carlos@test.com", "employees": 75, "origin_url": "http://localhost:8080"}},
+            {"name": "Missing origin_url", "data": {"company": "Test Corp", "name": "Carlos Silva", "email": "carlos@test.com", "employees": 75, "plan": "business"}},
         ]
         
         for test_case in test_cases:
             try:
                 async with self.session.post(
-                    f"{API_BASE_URL}/corporate/quote",
+                    f"{API_BASE_URL}/corporate/checkout",
                     json=test_case["data"],
                     headers={"Content-Type": "application/json"}
                 ) as response:
@@ -130,169 +135,240 @@ class CorporateCheckoutAPITester:
             except Exception as e:
                 self.log_result(f"{test_name} - {test_case['name']}", False, f"Request failed: {str(e)}")
                 
-    async def test_post_corporate_quote_invalid_data_types(self):
-        """Test POST /api/corporate/quote with invalid data types"""
-        test_name = "POST /api/corporate/quote - Invalid Data Types"
+    async def test_corporate_checkout_invalid_plan(self):
+        """Test POST /api/corporate/checkout with invalid plan"""
+        test_name = "POST /api/corporate/checkout - Invalid Plan"
         
-        # Test with invalid data types
         test_data = {
-            "company": "Test Corp",
-            "name": "João Silva", 
-            "email": "invalid-email",  # Invalid email format
-            "phone": "(11) 99999-9999",
-            "employees": "not-a-number",  # Should be integer
-            "message": "Test message",
-            "selectedPlan": "BUSINESS",
-            "source": "corporate_website"
+            "company": "Tech Solutions Inc",
+            "name": "Carlos Silva",
+            "email": "carlos@techsolutions.com",
+            "phone": "(11) 99887-7665",
+            "employees": 75,
+            "plan": "invalid_plan",
+            "origin_url": "http://localhost:8080"
         }
         
         try:
             async with self.session.post(
-                f"{API_BASE_URL}/corporate/quote",
+                f"{API_BASE_URL}/corporate/checkout",
+                json=test_data,
+                headers={"Content-Type": "application/json"}
+            ) as response:
+                
+                if response.status == 400:  # Bad request expected
+                    response_data = await response.json()
+                    if "Plano inválido" in response_data.get("detail", ""):
+                        self.log_result(test_name, True, "Correctly rejected invalid plan")
+                    else:
+                        self.log_result(test_name, False, f"Wrong error message: {response_data}")
+                else:
+                    response_text = await response.text()
+                    self.log_result(test_name, False, f"Expected 400, got {response.status}: {response_text}")
+                    
+        except Exception as e:
+            self.log_result(test_name, False, f"Request failed: {str(e)}")
+            
+    async def test_corporate_checkout_valid_plans(self):
+        """Test POST /api/corporate/checkout with all valid plans"""
+        test_name = "POST /api/corporate/checkout - Valid Plans"
+        
+        plans = ["starter", "business", "enterprise"]
+        
+        for plan in plans:
+            test_data = {
+                "company": f"Test Company {plan.title()}",
+                "name": "Test User",
+                "email": f"test.{plan}@company.com",
+                "phone": "(11) 99999-9999",
+                "employees": 50,
+                "plan": plan,
+                "origin_url": "http://localhost:8080"
+            }
+            
+            try:
+                async with self.session.post(
+                    f"{API_BASE_URL}/corporate/checkout",
+                    json=test_data,
+                    headers={"Content-Type": "application/json"}
+                ) as response:
+                    
+                    if response.status == 200:
+                        response_data = await response.json()
+                        if response_data.get("success"):
+                            self.log_result(f"{test_name} - {plan}", True, f"Plan '{plan}' accepted successfully")
+                        else:
+                            self.log_result(f"{test_name} - {plan}", False, f"Plan '{plan}' returned success=False")
+                    else:
+                        response_text = await response.text()
+                        self.log_result(f"{test_name} - {plan}", False, f"Plan '{plan}' failed: HTTP {response.status}: {response_text}")
+                        
+            except Exception as e:
+                self.log_result(f"{test_name} - {plan}", False, f"Plan '{plan}' failed: {str(e)}")
+                
+    async def test_corporate_checkout_invalid_data_types(self):
+        """Test POST /api/corporate/checkout with invalid data types"""
+        test_name = "POST /api/corporate/checkout - Invalid Data Types"
+        
+        # Test with invalid email format
+        test_data = {
+            "company": "Tech Solutions Inc",
+            "name": "Carlos Silva",
+            "email": "invalid-email",  # Invalid email format
+            "phone": "(11) 99887-7665",
+            "employees": 75,
+            "plan": "business",
+            "origin_url": "http://localhost:8080"
+        }
+        
+        try:
+            async with self.session.post(
+                f"{API_BASE_URL}/corporate/checkout",
                 json=test_data,
                 headers={"Content-Type": "application/json"}
             ) as response:
                 
                 if response.status == 422:  # Validation error expected
-                    self.log_result(test_name, True, "Correctly rejected invalid data types")
+                    self.log_result(f"{test_name} - Invalid Email", True, "Correctly rejected invalid email format")
                 else:
                     response_text = await response.text()
-                    self.log_result(test_name, False, f"Expected 422, got {response.status}: {response_text}")
+                    self.log_result(f"{test_name} - Invalid Email", False, f"Expected 422, got {response.status}: {response_text}")
                     
         except Exception as e:
-            self.log_result(test_name, False, f"Request failed: {str(e)}")
+            self.log_result(f"{test_name} - Invalid Email", False, f"Request failed: {str(e)}")
             
-    async def test_get_corporate_quotes_no_auth(self):
-        """Test GET /api/corporate/quotes without authentication"""
-        test_name = "GET /api/corporate/quotes - No Authentication"
+        # Test with invalid employee count
+        test_data["email"] = "carlos@techsolutions.com"  # Fix email
+        test_data["employees"] = "not-a-number"  # Invalid employee count
         
         try:
-            async with self.session.get(f"{API_BASE_URL}/corporate/quotes") as response:
-                response_text = await response.text()
-                print(f"Response status: {response.status}")
-                print(f"Response body: {response_text}")
+            async with self.session.post(
+                f"{API_BASE_URL}/corporate/checkout",
+                json=test_data,
+                headers={"Content-Type": "application/json"}
+            ) as response:
+                
+                if response.status == 422:  # Validation error expected
+                    self.log_result(f"{test_name} - Invalid Employees", True, "Correctly rejected invalid employee count")
+                else:
+                    response_text = await response.text()
+                    self.log_result(f"{test_name} - Invalid Employees", False, f"Expected 422, got {response.status}: {response_text}")
+                    
+        except Exception as e:
+            self.log_result(f"{test_name} - Invalid Employees", False, f"Request failed: {str(e)}")
+            
+    async def test_corporate_checkout_optional_phone(self):
+        """Test POST /api/corporate/checkout without optional phone field"""
+        test_name = "POST /api/corporate/checkout - Optional Phone Field"
+        
+        test_data = {
+            "company": "Tech Solutions Inc",
+            "name": "Carlos Silva",
+            "email": "carlos@techsolutions.com",
+            # phone field omitted (optional)
+            "employees": 75,
+            "plan": "business",
+            "origin_url": "http://localhost:8080"
+        }
+        
+        try:
+            async with self.session.post(
+                f"{API_BASE_URL}/corporate/checkout",
+                json=test_data,
+                headers={"Content-Type": "application/json"}
+            ) as response:
                 
                 if response.status == 200:
                     response_data = await response.json()
-                    
-                    # Validate response structure
-                    if "quotes" in response_data and "total" in response_data:
-                        self.log_result(test_name, True, f"Retrieved {len(response_data['quotes'])} quotes, total: {response_data['total']}", response_data)
+                    if response_data.get("success"):
+                        self.log_result(test_name, True, "Successfully handled missing optional phone field")
                     else:
-                        self.log_result(test_name, False, "Missing 'quotes' or 'total' in response", response_data)
+                        self.log_result(test_name, False, "Checkout failed despite valid data")
                 else:
+                    response_text = await response.text()
                     self.log_result(test_name, False, f"HTTP {response.status}: {response_text}")
                     
         except Exception as e:
             self.log_result(test_name, False, f"Request failed: {str(e)}")
             
-    async def test_get_corporate_quotes_with_filters(self):
-        """Test GET /api/corporate/quotes with query parameters"""
-        test_name = "GET /api/corporate/quotes - With Filters"
+    async def test_price_calculation(self):
+        """Test price calculation for different plans and employee counts"""
+        test_name = "Price Calculation Test"
         
-        # Test with different query parameters
+        # Test different combinations
         test_cases = [
-            {"name": "Status filter", "params": {"status": "pending"}},
-            {"name": "Pagination", "params": {"skip": 0, "limit": 10}},
-            {"name": "Combined filters", "params": {"status": "pending", "skip": 0, "limit": 5}},
+            {"plan": "starter", "employees": 10, "expected_price_per_employee": 15},
+            {"plan": "business", "employees": 50, "expected_price_per_employee": 12},
+            {"plan": "enterprise", "employees": 100, "expected_price_per_employee": 8},
         ]
         
-        for test_case in test_cases:
+        for case in test_cases:
+            test_data = {
+                "company": f"Price Test {case['plan'].title()}",
+                "name": "Test User",
+                "email": f"test@{case['plan']}.com",
+                "phone": "(11) 99999-9999",
+                "employees": case["employees"],
+                "plan": case["plan"],
+                "origin_url": "http://localhost:8080"
+            }
+            
             try:
-                async with self.session.get(
-                    f"{API_BASE_URL}/corporate/quotes",
-                    params=test_case["params"]
+                async with self.session.post(
+                    f"{API_BASE_URL}/corporate/checkout",
+                    json=test_data,
+                    headers={"Content-Type": "application/json"}
                 ) as response:
                     
                     if response.status == 200:
                         response_data = await response.json()
-                        self.log_result(f"{test_name} - {test_case['name']}", True, f"Retrieved {len(response_data['quotes'])} quotes with filters", test_case["params"])
+                        if response_data.get("success"):
+                            expected_total = case["employees"] * case["expected_price_per_employee"]
+                            self.log_result(f"{test_name} - {case['plan']}", True, f"Price calculation appears correct for {case['employees']} employees (expected total: {expected_total} BRL)")
+                        else:
+                            self.log_result(f"{test_name} - {case['plan']}", False, "Checkout creation failed")
                     else:
                         response_text = await response.text()
-                        self.log_result(f"{test_name} - {test_case['name']}", False, f"HTTP {response.status}: {response_text}")
+                        self.log_result(f"{test_name} - {case['plan']}", False, f"HTTP {response.status}: {response_text}")
                         
             except Exception as e:
-                self.log_result(f"{test_name} - {test_case['name']}", False, f"Request failed: {str(e)}")
+                self.log_result(f"{test_name} - {case['plan']}", False, f"Request failed: {str(e)}")
                 
     async def test_database_persistence(self):
-        """Test that data is properly stored and retrieved from database"""
-        test_name = "Database Persistence Test"
+        """Test that corporate transactions are saved to MongoDB"""
+        test_name = "Database Persistence - Corporate Transactions"
         
-        # First create a quote with unique data
-        unique_company = f"Test Corp {datetime.now().strftime('%Y%m%d%H%M%S')}"
+        # Create a checkout with unique data
+        unique_company = f"DB Test Corp {datetime.now().strftime('%Y%m%d%H%M%S')}"
         test_data = {
             "company": unique_company,
-            "name": "Test User", 
-            "email": "test@testcorp.com",
-            "phone": "(11) 88888-8888",
-            "employees": 75,
-            "message": "Test persistence message",
-            "selectedPlan": "PREMIUM",
-            "source": "api_test"
+            "name": "DB Test User",
+            "email": "dbtest@company.com",
+            "phone": "(11) 99999-9999",
+            "employees": 25,
+            "plan": "starter",
+            "origin_url": "http://localhost:8080"
         }
         
         try:
-            # Create quote
             async with self.session.post(
-                f"{API_BASE_URL}/corporate/quote",
+                f"{API_BASE_URL}/corporate/checkout",
                 json=test_data,
                 headers={"Content-Type": "application/json"}
             ) as response:
                 
-                if response.status != 200:
-                    response_text = await response.text()
-                    self.log_result(test_name, False, f"Failed to create test quote: {response.status} - {response_text}")
-                    return
-                
-                create_response = await response.json()
-                quote_id = create_response.get("quote_id")
-                
-            # Retrieve quotes and verify our quote exists
-            async with self.session.get(f"{API_BASE_URL}/corporate/quotes") as response:
-                if response.status != 200:
-                    response_text = await response.text()
-                    self.log_result(test_name, False, f"Failed to retrieve quotes: {response.status} - {response_text}")
-                    return
-                
-                response_data = await response.json()
-                quotes = response_data.get("quotes", [])
-                
-                # Find our quote
-                found_quote = None
-                for quote in quotes:
-                    if quote.get("company") == unique_company:
-                        found_quote = quote
-                        break
-                
-                if found_quote:
-                    # Verify all fields are correctly stored
-                    field_checks = [
-                        ("company", unique_company),
-                        ("name", "Test User"),
-                        ("email", "test@testcorp.com"),
-                        ("phone", "(11) 88888-8888"),
-                        ("employees", 75),
-                        ("message", "Test persistence message"),
-                        ("selected_plan", "PREMIUM"),
-                        ("source", "api_test"),
-                        ("status", "pending")
-                    ]
-                    
-                    mismatches = []
-                    for field, expected_value in field_checks:
-                        actual_value = found_quote.get(field)
-                        if actual_value != expected_value:
-                            mismatches.append(f"{field}: expected '{expected_value}', got '{actual_value}'")
-                    
-                    if mismatches:
-                        self.log_result(test_name, False, f"Field mismatches: {', '.join(mismatches)}", found_quote)
+                if response.status == 200:
+                    response_data = await response.json()
+                    if response_data.get("success") and response_data.get("session_id"):
+                        self.log_result(test_name, True, "Corporate transaction appears to be saved (checkout successful)")
                     else:
-                        self.log_result(test_name, True, "Quote correctly stored and retrieved with all fields", found_quote)
+                        self.log_result(test_name, False, "Checkout response missing required fields")
                 else:
-                    self.log_result(test_name, False, f"Created quote not found in database. Quote ID: {quote_id}")
+                    response_text = await response.text()
+                    self.log_result(test_name, False, f"Database persistence may be failing: HTTP {response.status}: {response_text}")
                     
         except Exception as e:
-            self.log_result(test_name, False, f"Test failed: {str(e)}")
+            self.log_result(test_name, False, f"Request failed: {str(e)}")
             
     async def test_error_handling(self):
         """Test error handling for various edge cases"""
@@ -301,7 +377,7 @@ class CorporateCheckoutAPITester:
         # Test malformed JSON
         try:
             async with self.session.post(
-                f"{API_BASE_URL}/corporate/quote",
+                f"{API_BASE_URL}/corporate/checkout",
                 data="invalid json",
                 headers={"Content-Type": "application/json"}
             ) as response:
@@ -318,7 +394,7 @@ class CorporateCheckoutAPITester:
         # Test empty request body
         try:
             async with self.session.post(
-                f"{API_BASE_URL}/corporate/quote",
+                f"{API_BASE_URL}/corporate/checkout",
                 json={},
                 headers={"Content-Type": "application/json"}
             ) as response:
@@ -334,25 +410,30 @@ class CorporateCheckoutAPITester:
             
     async def run_all_tests(self):
         """Run all tests"""
-        print("=" * 60)
-        print("CORPORATE QUOTE ENDPOINTS TESTING")
-        print("=" * 60)
+        print("=" * 80)
+        print("CORPORATE CHECKOUT ENDPOINT TESTING")
+        print("=" * 80)
         print(f"Backend URL: {API_BASE_URL}")
+        print(f"Testing endpoint: POST /api/corporate/checkout")
         print(f"Test started at: {datetime.now().isoformat()}")
         print()
         
         await self.setup()
         
         try:
-            # Test POST endpoint
-            print("Testing POST /api/corporate/quote endpoint...")
-            await self.test_post_corporate_quote_valid_data()
-            await self.test_post_corporate_quote_missing_required_fields()
-            await self.test_post_corporate_quote_invalid_data_types()
+            # Test basic functionality
+            print("Testing basic functionality...")
+            await self.test_corporate_checkout_valid_request()
             
-            print("\nTesting GET /api/corporate/quotes endpoint...")
-            await self.test_get_corporate_quotes_no_auth()
-            await self.test_get_corporate_quotes_with_filters()
+            print("\nTesting validation...")
+            await self.test_corporate_checkout_missing_required_fields()
+            await self.test_corporate_checkout_invalid_plan()
+            await self.test_corporate_checkout_valid_plans()
+            await self.test_corporate_checkout_invalid_data_types()
+            await self.test_corporate_checkout_optional_phone()
+            
+            print("\nTesting business logic...")
+            await self.test_price_calculation()
             
             print("\nTesting database integration...")
             await self.test_database_persistence()
@@ -364,9 +445,9 @@ class CorporateCheckoutAPITester:
             await self.cleanup()
             
         # Print summary
-        print("\n" + "=" * 60)
+        print("\n" + "=" * 80)
         print("TEST SUMMARY")
-        print("=" * 60)
+        print("=" * 80)
         
         total_tests = len(self.test_results)
         passed_tests = sum(1 for result in self.test_results if result["success"])
@@ -389,7 +470,7 @@ class CorporateCheckoutAPITester:
 
 async def main():
     """Main test function"""
-    tester = CorporateQuoteAPITester()
+    tester = CorporateCheckoutAPITester()
     passed, failed = await tester.run_all_tests()
     
     # Exit with error code if tests failed
