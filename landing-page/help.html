@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Central de Ajuda - MindCare</title>
+    <meta name="description" content="Central de Ajuda do MindCare. Encontre respostas, tutoriais e suporte para usar nosso app de saúde mental.">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .help-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .help-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        
+        .help-title {
+            font-size: 36px;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 16px;
+        }
+        
+        .help-subtitle {
+            font-size: 18px;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .search-box {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 32px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-input {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            color: #1e293b;
+            background: transparent;
+        }
+        
+        .search-input::placeholder {
+            color: #94a3b8;
+        }
+        
+        .help-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+        
+        .category-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+            border-color: #667eea;
+        }
+        
+        .category-icon {
+            font-size: 32px;
+            margin-bottom: 16px;
+            display: block;
+        }
+        
+        .category-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+        
+        .category-description {
+            font-size: 14px;
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        
+        .category-articles {
+            font-size: 12px;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+        
+        .quick-links {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 48px 0;
+            color: white;
+        }
+        
+        .quick-links-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .quick-links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        
+        .quick-link {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .quick-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .support-section {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 32px;
+            margin: 48px 0;
+            text-align: center;
+        }
+        
+        .support-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 16px;
+        }
+        
+        .support-text {
+            font-size: 16px;
+            color: #64748b;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+        
+        .support-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .support-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary-support {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary-support:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary-support {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        
+        .btn-secondary-support:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 24px;
+            transition: color 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: #4f46e5;
+        }
+        
+        .popular-articles {
+            margin: 48px 0;
+        }
+        
+        .articles-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 24px;
+        }
+        
+        .article-list {
+            display: grid;
+            gap: 16px;
+        }
+        
+        .article-item {
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+        
+        .article-item:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+        }
+        
+        .article-icon {
+            font-size: 24px;
+            margin-right: 16px;
+            flex-shrink: 0;
+        }
+        
+        .article-content {
+            flex: 1;
+        }
+        
+        .article-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+        
+        .article-description {
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        .article-arrow {
+            color: #94a3b8;
+            font-size: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .help-categories {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-links-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .support-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav-brand">
+                <a href="index.html" style="text-decoration: none;">
+                    <span class="logo">💚 MindCare</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="help-container">
+        <a href="index.html" class="back-link">
+            ← Voltar ao Início
+        </a>
+
+        <div class="help-header">
+            <h1 class="help-title">Como podemos ajudar?</h1>
+            <p class="help-subtitle">
+                Encontre respostas para suas dúvidas, tutoriais passo a passo e suporte especializado para usar o MindCare da melhor forma.
+            </p>
+            
+            <div class="search-box">
+                <input 
+                    type="text" 
+                    class="search-input" 
+                    placeholder="🔍 Pesquisar artigos, tutoriais ou dúvidas..."
+                    onkeyup="searchHelp(this.value)"
+                >
+            </div>
+        </div>
+
+        <section class="help-categories">
+            <div class="category-card" onclick="openCategory('getting-started')">
+                <span class="category-icon">🚀</span>
+                <h3 class="category-title">Primeiros Passos</h3>
+                <p class="category-description">
+                    Como baixar, criar conta e começar a usar o MindCare. Guia completo para iniciantes.
+                </p>
+                <span class="category-articles">8 artigos</span>
+            </div>
+
+            <div class="category-card" onclick="openCategory('dr-ana')">
+                <span class="category-icon">🤖</span>
+                <h3 class="category-title">Dr. Ana (IA)</h3>
+                <p class="category-description">
+                    Como conversar com nossa IA terapêutica, dicas para melhores respostas e limitações.
+                </p>
+                <span class="category-articles">12 artigos</span>
+            </div>
+
+            <div class="category-card" onclick="openCategory('mood-tracking')">
+                <span class="category-icon">📊</span>
+                <h3 class="category-title">Monitoramento de Humor</h3>
+                <p class="category-description">
+                    Como registrar seu humor, interpretar gráficos e usar insights para seu bem-estar.
+                </p>
+                <span class="category-articles">6 artigos</span>
+            </div>
+
+            <div class="category-card" onclick="openCategory('exercises')">
+                <span class="category-icon">🧘‍♀️</span>
+                <h3 class="category-title">Exercícios de Bem-estar</h3>
+                <p class="category-description">
+                    Respiração guiada, mindfulness, gratidão e outras práticas para sua saúde mental.
+                </p>
+                <span class="category-articles">15 artigos</span>
+            </div>
+
+            <div class="category-card" onclick="openCategory('gamification')">
+                <span class="category-icon">⭐</span>
+                <h3 class="category-title">Estrelas e Níveis</h3>
+                <p class="category-description">
+                    Sistema de gamificação, missões diárias, como ganhar estrelas e subir de nível.
+                </p>
+                <span class="category-articles">5 artigos</span>
+            </div>
+
+            <div class="category-card" onclick="openCategory('privacy')">
+                <span class="category-icon">🔒</span>
+                <h3 class="category-title">Privacidade e Segurança</h3>
+                <p class="category-description">
+                    Como seus dados são protegidos, configurações de privacidade e controle de informações.
+                </p>
+                <span class="category-articles">7 artigos</span>
+            </div>
+        </section>
+
+        <section class="quick-links">
+            <h2 class="quick-links-title">Links Rápidos</h2>
+            <div class="quick-links-grid">
+                <a href="#" class="quick-link" onclick="showQuickHelp('download')">
+                    📱 Como Baixar o App
+                </a>
+                <a href="#" class="quick-link" onclick="showQuickHelp('create-account')">
+                    👤 Criar Conta
+                </a>
+                <a href="#" class="quick-link" onclick="showQuickHelp('first-chat')">
+                    💬 Primeira Conversa com Dr. Ana
+                </a>
+                <a href="#" class="quick-link" onclick="showQuickHelp('mood-register')">
+                    😊 Registrar Primeiro Humor
+                </a>
+                <a href="#" class="quick-link" onclick="showQuickHelp('breathing')">
+                    🫁 Exercício de Respiração
+                </a>
+                <a href="#" class="quick-link" onclick="showQuickHelp('emergency')">
+                    🆘 Usar Botão SOS
+                </a>
+            </div>
+        </section>
+
+        <section class="popular-articles">
+            <h2 class="articles-title">Artigos Mais Procurados</h2>
+            <div class="article-list">
+                <a href="#" class="article-item" onclick="openArticle('privacy-data')">
+                    <span class="article-icon">🔐</span>
+                    <div class="article-content">
+                        <h4 class="article-title">Meus dados estão seguros no MindCare?</h4>
+                        <p class="article-description">Entenda como protegemos suas conversas e informações pessoais</p>
+                    </div>
+                    <span class="article-arrow">→</span>
+                </a>
+
+                <a href="#" class="article-item" onclick="openArticle('dr-ana-limitations')">
+                    <span class="article-icon">🤖</span>
+                    <div class="article-content">
+                        <h4 class="article-title">Dr. Ana substitui terapia presencial?</h4>
+                        <p class="article-description">Limitações da IA e quando buscar ajuda profissional</p>
+                    </div>
+                    <span class="article-arrow">→</span>
+                </a>
+
+                <a href="#" class="article-item" onclick="openArticle('mood-patterns')">
+                    <span class="article-icon">📈</span>
+                    <div class="article-content">
+                        <h4 class="article-title">Como interpretar meus padrões de humor?</h4>
+                        <p class="article-description">Dicas para entender gráficos e usar insights do app</p>
+                    </div>
+                    <span class="article-arrow">→</span>
+                </a>
+
+                <a href="#" class="article-item" onclick="openArticle('crisis-support')">
+                    <span class="article-icon">🆘</span>
+                    <div class="article-content">
+                        <h4 class="article-title">O que fazer em uma crise emocional?</h4>
+                        <p class="article-description">Recursos de emergência e como usar o botão SOS</p>
+                    </div>
+                    <span class="article-arrow">→</span>
+                </a>
+
+                <a href="#" class="article-item" onclick="openArticle('offline-usage')">
+                    <span class="article-icon">📱</span>
+                    <div class="article-content">
+                        <h4 class="article-title">Posso usar o MindCare sem internet?</h4>
+                        <p class="article-description">Recursos disponíveis offline e sincronização</p>
+                    </div>
+                    <span class="article-arrow">→</span>
+                </a>
+
+                <a href="#" class="article-item" onclick="openArticle('backup-data')">
+                    <span class="article-icon">☁️</span>
+                    <div class="article-content">
+                        <h4 class="article-title">Como fazer backup dos meus dados?</h4>
+                        <p class="article-description">Exportar conversas, humor e progresso</p>
+                    </div>
+                    <span class="article-arrow">→</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="support-section">
+            <h2 class="support-title">Não encontrou o que procurava?</h2>
+            <p class="support-text">
+                Nossa equipe de suporte está pronta para ajudar você. Entre em contato conosco através dos canais abaixo 
+                ou envie sua dúvida diretamente.
+            </p>
+            
+            <div class="support-buttons">
+                <a href="contact.html" class="support-btn btn-primary-support">
+                    📧 Falar com Suporte
+                </a>
+                <a href="faq.html" class="support-btn btn-secondary-support">
+                    ❓ Ver Perguntas Frequentes
+                </a>
+            </div>
+        </section>
+
+        <div style="text-align: center; margin: 48px 0; padding-top: 24px; border-top: 1px solid #e2e8f0;">
+            <p><a href="index.html" class="back-link">← Voltar ao Início</a></p>
+        </div>
+    </main>
+
+    <footer style="background: #1e293b; color: white; text-align: center; padding: 24px 0;">
+        <div class="container">
+            <p>&copy; 2024 MindCare. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        function searchHelp(query) {
+            if (query.length > 2) {
+                console.log('🔍 Searching for:', query);
+                // Aqui você implementaria a busca real
+                // Por enquanto, apenas log para demonstração
+            }
+        }
+
+        function openCategory(category) {
+            console.log('📂 Opening category:', category);
+            alert(`Categoria "${category}" em desenvolvimento. Em breve, você encontrará artigos detalhados sobre este tópico!`);
+        }
+
+        function showQuickHelp(topic) {
+            const helpTexts = {
+                'download': '📱 Para baixar o MindCare:\n\n1. Acesse App Store (iOS) ou Google Play (Android)\n2. Pesquise por "MindCare"\n3. Toque em "Instalar"\n4. Aguarde o download\n5. Abra o app e crie sua conta',
+                'create-account': '👤 Para criar sua conta:\n\n1. Abra o MindCare\n2. Toque em "Criar Conta"\n3. Digite seu email e senha\n4. Confirme o email (opcional)\n5. Complete seu perfil básico\n6. Comece a usar!',
+                'first-chat': '💬 Sua primeira conversa:\n\n1. Toque no ícone do Dr. Ana\n2. Comece com "Oi" ou "Como você está?"\n3. Seja honesto sobre seus sentimentos\n4. Faça perguntas específicas\n5. Dr. Ana aprende com suas conversas',
+                'mood-register': '😊 Registrar seu humor:\n\n1. Na tela inicial, toque em "Humor"\n2. Escolha como se sente (1-5)\n3. Adicione uma nota (opcional)\n4. Toque em "Salvar"\n5. Acompanhe sua evolução nos gráficos',
+                'breathing': '🫁 Exercício de respiração:\n\n1. Toque em "Respiração"\n2. Escolha uma técnica (4-7-8, etc.)\n3. Siga as instruções visuais\n4. Respire no ritmo indicado\n5. Finalize quando se sentir melhor',
+                'emergency': '🆘 Usar o botão SOS:\n\n1. Toque no botão vermelho "SOS"\n2. Acesse técnicas de grounding\n3. Encontre contatos de emergência\n4. Use exercícios rápidos de alívio\n5. Ligue CVV: 188 se necessário'
+            };
+
+            const text = helpTexts[topic] || 'Informação não disponível.';
+            alert(text);
+        }
+
+        function openArticle(article) {
+            console.log('📄 Opening article:', article);
+            alert('Artigo em desenvolvimento. Em breve, você terá acesso ao conteúdo completo!');
+        }
+
+        // Track page view
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'page_view', {
+                'page_title': 'Central de Ajuda',
+                'page_location': window.location.href
+            });
+        }
+        
+        console.log('💡 Central de Ajuda carregada');
+    </script>
+</body>
+</html>
