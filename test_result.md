@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Test the newly created corporate quote endpoints"
+user_problem_statement: "Test the newly created corporate checkout endpoint"
 
 backend:
   - task: "POST /api/corporate/quote endpoint"
@@ -164,6 +164,54 @@ backend:
         - working: true
           agent: "testing"
           comment: "Pydantic validation working correctly for CorporateQuoteRequest model. Required fields enforced: company, name, email, employees. Optional fields handled properly: phone, message, selectedPlan, source. Email validation and integer type validation for employees field working as expected."
+
+  - task: "POST /api/corporate/checkout endpoint"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Corporate checkout endpoint working correctly with 95% test success rate (19/20 tests passed). Successfully creates Stripe checkout sessions for corporate purchases. Validates required fields (company, name, email, employees, plan, origin_url), supports all valid plans (starter, business, enterprise), calculates pricing correctly (starter: 15 BRL, business: 12 BRL, enterprise: 8 BRL per employee). Stripe integration functional, returns proper checkout URLs and session IDs. Database persistence verified - transactions saved to corporate_transactions collection. Minor: Email validation not strict (accepts invalid format but doesn't break functionality)."
+
+  - task: "Corporate checkout Stripe integration"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Stripe integration working correctly. Creates valid checkout sessions with proper URLs, session IDs, and metadata. Webhook URL configuration correct. Price calculation accurate for all plans. All test checkouts generated valid Stripe URLs successfully."
+
+  - task: "Corporate checkout validation and error handling"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Validation working for most cases. Correctly rejects missing required fields (422 status), invalid plans (400 status), invalid employee counts, malformed JSON, and empty requests. Handles optional phone field properly. Minor issue: email validation not strict (uses str instead of EmailStr) but doesn't affect core functionality."
+
+  - task: "Corporate checkout database persistence"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Database persistence working correctly. Corporate transactions are saved to corporate_transactions collection with all required fields: session_id, company, contact details, employee count, plan, pricing, timestamps. Transaction records created successfully for all test cases."
 
 frontend:
   # No frontend testing performed as per instructions
