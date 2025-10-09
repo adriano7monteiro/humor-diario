@@ -2400,6 +2400,86 @@ async def get_ebook_packages():
         ]
     }
 
+# ============================================
+# CORPORATE QUOTES ENDPOINTS
+# ============================================
+
+class CorporateQuoteRequest(BaseModel):
+    company: str
+    name: str
+    email: str
+    phone: Optional[str] = None
+    employees: int
+    message: Optional[str] = None
+    selectedPlan: Optional[str] = None
+    source: str = "corporate_website"
+
+@api_router.post("/corporate/quote")
+async def create_corporate_quote(request: CorporateQuoteRequest):
+    """Create a corporate quote request"""
+    try:
+        # Create quote record
+        quote = {
+            "id": str(uuid.uuid4()),
+            "company": request.company,
+            "name": request.name,
+            "email": request.email,
+            "phone": request.phone,
+            "employees": request.employees,
+            "message": request.message,
+            "selected_plan": request.selectedPlan,
+            "source": request.source,
+            "status": "pending",
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow()
+        }
+        
+        # Insert into database
+        await db.corporate_quotes.insert_one(quote)
+        
+        # TODO: Send notification email to sales team
+        # TODO: Send confirmation email to customer
+        
+        logger.info(f"Corporate quote created for {request.company} ({request.employees} employees)")
+        
+        return {
+            "success": True,
+            "message": "Orçamento solicitado com sucesso",
+            "quote_id": quote["id"]
+        }
+        
+    except Exception as e:
+        logger.error(f"Error creating corporate quote: {e}")
+        raise HTTPException(status_code=500, detail="Erro ao processar solicitação de orçamento")
+
+@api_router.get("/corporate/quotes")
+async def get_corporate_quotes(
+    status: Optional[str] = None,
+    skip: int = 0,
+    limit: int = 100
+):
+    """Get corporate quotes (admin endpoint)"""
+    try:
+        query = {}
+        if status:
+            query["status"] = status
+            
+        quotes = await db.corporate_quotes.find(query).skip(skip).limit(limit).sort("created_at", -1).to_list(limit)
+        
+        # Clean ObjectIds
+        for quote in quotes:
+            if "_id" in quote:
+                quote["_id"] = str(quote["_id"])
+        
+        return {
+            "quotes": quotes,
+            "total": await db.corporate_quotes.count_documents(query)
+        }
+        
+    except Exception as e:
+        logger.error(f"Error fetching corporate quotes: {e}")
+        raise HTTPException(status_code=500, detail="Erro ao buscar orçamentos")
+
 # Include the router in the main app (MUST be after all endpoint definitions)
 app.include_router(api_router)
 
