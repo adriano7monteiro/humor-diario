@@ -102,10 +102,10 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Test the newly implemented Stripe payment integration endpoints"
+user_problem_statement: "Test the newly created corporate quote endpoints"
 
 backend:
-  - task: "GET /api/payments/packages endpoint"
+  - task: "POST /api/corporate/quote endpoint"
     implemented: true
     working: true
     file: "/app/backend/server.py"
@@ -115,39 +115,9 @@ backend:
     status_history:
         - working: true
           agent: "testing"
-          comment: "Successfully retrieves 4 ebook packages with correct structure (id, title, price, category, currency). No authentication required as expected."
+          comment: "Successfully creates corporate quote requests with valid data. Returns proper response structure with success=true, message, and quote_id. Correctly validates required fields (company, name, email, employees) and rejects requests with missing fields (422 status). Properly handles invalid data types like invalid email format and non-numeric employees field."
 
-  - task: "POST /api/payments/checkout/session endpoint"
-    implemented: true
-    working: true
-    file: "/app/backend/server.py"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-        - working: false
-          agent: "testing"
-          comment: "Initial test failed due to duplicate PaymentTransaction model causing validation errors"
-        - working: true
-          agent: "testing"
-          comment: "Fixed duplicate PaymentTransaction model import. Endpoint now creates Stripe checkout sessions successfully. Requires authentication. Properly validates ebook_id and rejects invalid ones with 400 error."
-
-  - task: "GET /api/payments/checkout/status/{session_id} endpoint"
-    implemented: true
-    working: true
-    file: "/app/backend/server.py"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-        - working: false
-          agent: "testing"
-          comment: "Initial test failed due to PaymentTransaction model validation issues"
-        - working: true
-          agent: "testing"
-          comment: "Fixed after resolving PaymentTransaction model conflicts. Endpoint retrieves payment status successfully. Requires authentication. Returns proper status fields (session_id, status, payment_status, amount_total, currency)."
-
-  - task: "POST /api/webhook/stripe endpoint"
+  - task: "GET /api/corporate/quotes endpoint"
     implemented: true
     working: true
     file: "/app/backend/server.py"
@@ -157,9 +127,9 @@ backend:
     status_history:
         - working: true
           agent: "testing"
-          comment: "Webhook endpoint processes requests successfully. Handles Stripe webhook events properly. No authentication required as expected for webhook endpoints."
+          comment: "Successfully retrieves corporate quotes without authentication (public endpoint). Returns proper response structure with 'quotes' array and 'total' count. Supports query parameters for filtering (status) and pagination (skip, limit). All filter combinations work correctly."
 
-  - task: "Authentication requirements for payment endpoints"
+  - task: "Database persistence for corporate quotes"
     implemented: true
     working: true
     file: "/app/backend/server.py"
@@ -169,9 +139,9 @@ backend:
     status_history:
         - working: true
           agent: "testing"
-          comment: "Protected endpoints (checkout/session and checkout/status) correctly require Bearer token authentication. Return 403 Forbidden when no auth provided."
+          comment: "Corporate quotes are properly stored in MongoDB 'corporate_quotes' collection with all fields intact. Data persistence verified - created quotes can be retrieved with all original field values preserved. Fields correctly mapped: selectedPlan -> selected_plan, proper UUID generation, timestamps added."
 
-  - task: "Error handling and validation"
+  - task: "Error handling for corporate quote endpoints"
     implemented: true
     working: true
     file: "/app/backend/server.py"
@@ -181,19 +151,19 @@ backend:
     status_history:
         - working: true
           agent: "testing"
-          comment: "Proper error handling implemented. Invalid ebook_id returns 400 with 'Ebook inválido' message. Non-existent sessions return 404. Stripe integration errors handled gracefully."
+          comment: "Proper error handling implemented. Malformed JSON requests correctly rejected with 400/422 status. Empty request bodies rejected with 422 status. Invalid data types (non-numeric employees, invalid email format) properly validated and rejected."
 
-  - task: "EBOOK_PACKAGES data structure"
+  - task: "Corporate quote data validation"
     implemented: true
     working: true
-    file: "/app/backend/models/payments.py"
+    file: "/app/backend/server.py"
     stuck_count: 0
     priority: "medium"
     needs_retesting: false
     status_history:
         - working: true
           agent: "testing"
-          comment: "EBOOK_PACKAGES contains 4 packages: mindfulness (R$29.90), breathing (R$19.90), gratitude (R$24.90), stress (R$34.90). All packages have proper structure with id, title, price, category, currency fields."
+          comment: "Pydantic validation working correctly for CorporateQuoteRequest model. Required fields enforced: company, name, email, employees. Optional fields handled properly: phone, message, selectedPlan, source. Email validation and integer type validation for employees field working as expected."
 
 frontend:
   # No frontend testing performed as per instructions
