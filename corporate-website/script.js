@@ -487,8 +487,11 @@ window.calculatePrice = calculatePrice;
 window.scrollToCalculator = scrollToCalculator;
 window.selectPlan = selectPlan;
 window.selectCalculatedPlan = selectCalculatedPlan;
+window.buyPlan = buyPlan;
 window.openQuoteModal = openQuoteModal;
 window.closeQuoteModal = closeQuoteModal;
+window.openPurchaseModal = openPurchaseModal;
+window.closePurchaseModal = closePurchaseModal;
 window.openSuccessModal = openSuccessModal;
 window.closeSuccessModal = closeSuccessModal;
 
