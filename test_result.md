@@ -214,7 +214,29 @@ backend:
           comment: "Database persistence working correctly. Corporate transactions are saved to corporate_transactions collection with all required fields: session_id, company, contact details, employee count, plan, pricing, timestamps. Transaction records created successfully for all test cases."
 
 frontend:
-  # No frontend testing performed as per instructions
+  - task: "Landing page cookies.html creation"
+    implemented: true
+    working: true
+    file: "/app/landing-page/cookies.html"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "main"
+          comment: "Successfully created cookies.html page with comprehensive cookie policy content following the same design pattern as other legal pages. Page includes cookie types table, security measures, user controls, and compliance information."
+
+  - task: "Landing page footer links update"
+    implemented: true
+    working: true
+    file: "/app/landing-page/index.html"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "main"
+          comment: "Updated footer link for cookies policy from placeholder alert to actual cookies.html page. All support and legal page links now functional: Help Center, Contact, FAQ, Privacy Policy, Terms of Use, and Cookies."
 
 metadata:
   created_by: "testing_agent"
