@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindCare - Seu Bem-Estar Mental na Palma da Mão</title>
+    <meta name="description" content="Transforme sua saúde mental com IA, gamificação e suporte 24/7. Download grátis no App Store e Google Play.">
+    <meta name="keywords" content="saúde mental, ansiedade, depressão, mindfulness, bem-estar, app, inteligência artificial">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mindcare-app.com">
+    <meta property="og:title" content="MindCare - Seu Bem-Estar Mental na Palma da Mão">
+    <meta property="og:description" content="Transforme sua saúde mental com IA, gamificação e suporte 24/7">
+    <meta property="og:image" content="/assets/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://mindcare-app.com">
+    <meta property="twitter:title" content="MindCare - Seu Bem-Estar Mental na Palma da Mão">
+    <meta property="twitter:description" content="Transforme sua saúde mental com IA, gamificação e suporte 24/7">
+    <meta property="twitter:image" content="/assets/twitter-image.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav-brand">
+                <span class="logo">💚 MindCare</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#features">Recursos</a>
+                <a href="#benefits">Benefícios</a>
+                <a href="#testimonials">Depoimentos</a>
+                <a href="#download">Download</a>
+            </div>
+            <div class="nav-cta">
+                <a href="#download" class="btn btn-primary">Baixar Grátis</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <span class="hero-badge">🎉 Novo: Chat com IA especializada!</span>
+                    <h1 class="hero-title">
+                        Transforme sua <span class="gradient-text">Saúde Mental</span> com Inteligência Artificial
+                    </h1>
+                    <p class="hero-description">
+                        Cuide do seu bem-estar emocional com Dr. Ana, nossa IA terapêutica. 
+                        Acompanhe seu humor, pratique mindfulness e desenvolva hábitos saudáveis. 
+                        <strong>Totalmente gratuito</strong> e disponível 24/7.
+                    </p>
+                    
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-number">50k+</span>
+                            <span class="stat-label">Usuários Ativos</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">4.9⭐</span>
+                            <span class="stat-label">App Store</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">95%</span>
+                            <span class="stat-label">Satisfação</span>
+                        </div>
+                    </div>
+
+                    <div class="hero-cta">
+                        <a href="#" class="btn btn-download" onclick="trackDownload('ios')">
+                            <img src="assets/app-store-badge.svg" alt="Download na App Store" />
+                        </a>
+                        <a href="#" class="btn btn-download" onclick="trackDownload('android')">
+                            <img src="assets/google-play-badge.svg" alt="Baixar no Google Play" />
+                        </a>
+                    </div>
+
+                    <p class="hero-note">
+                        ✅ Gratuito para sempre &nbsp;•&nbsp; 🔒 Seus dados são privados &nbsp;•&nbsp; 📱 Funciona offline
+                    </p>
+                </div>
+
+                <div class="hero-visual">
+                    <div class="phone-mockup">
+                        <img src="assets/app-screenshot-hero.png" alt="MindCare App Interface" class="app-screenshot" />
+                        <div class="floating-cards">
+                            <div class="floating-card card-1">
+                                <span class="card-emoji">🤖</span>
+                                <span class="card-text">Dr. Ana: Como você está se sentindo hoje?</span>
+                            </div>
+                            <div class="floating-card card-2">
+                                <span class="card-emoji">⭐</span>
+                                <span class="card-text">+50 Estrelas conquistadas!</span>
+                            </div>
+                            <div class="floating-card card-3">
+                                <span class="card-emoji">🧘‍♀️</span>
+                                <span class="card-text">Exercício de respiração concluído</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Recursos que Transformam Vidas</h2>
+                <p class="section-subtitle">
+                    Tudo que você precisa para cuidar da sua saúde mental em um só lugar
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <!-- Dr. Ana IA -->
+                <div class="feature-card featured">
+                    <div class="feature-icon">🤖</div>
+                    <h3 class="feature-title">Dr. Ana - Terapeuta IA</h3>
+                    <p class="feature-description">
+                        Converse 24/7 com nossa inteligência artificial especializada em saúde mental. 
+                        Receba apoio personalizado e orientações baseadas em terapia cognitivo-comportamental.
+                    </p>
+                    <div class="feature-highlight">Disponível sempre que precisar</div>
+                </div>
+
+                <!-- Mood Tracking -->
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Rastreamento de Humor</h3>
+                    <p class="feature-description">
+                        Monitore seu estado emocional diariamente e visualize padrões ao longo do tempo. 
+                        Insights personalizados ajudam você a entender seus gatilhos.
+                    </p>
+                </div>
+
+                <!-- Gamificação -->
+                <div class="feature-card">
+                    <div class="feature-icon">🎮</div>
+                    <h3 class="feature-title">Gamificação Motivacional</h3>
+                    <p class="feature-description">
+                        Ganhe estrelas, suba de nível e complete missões diárias. 
+                        Torne o cuidado com sua saúde mental divertido e envolvente.
+                    </p>
+                </div>
+
+                <!-- Diário de Gratidão -->
+                <div class="feature-card">
+                    <div class="feature-icon">💝</div>
+                    <h3 class="feature-title">Diário de Gratidão</h3>
+                    <p class="feature-description">
+                        Pratique a gratidão diária e transforme sua perspectiva. 
+                        Estudos mostram que gratidão melhora significativamente o bem-estar.
+                    </p>
+                </div>
+
+                <!-- Exercícios de Respiração -->
+                <div class="feature-card">
+                    <div class="feature-icon">🧘‍♀️</div>
+                    <h3 class="feature-title">Respiração Guiada</h3>
+                    <p class="feature-description">
+                        Técnicas de respiração cientificamente validadas para reduzir ansiedade e estresse. 
+                        Exercícios de 2 a 10 minutos para qualquer momento.
+                    </p>
+                </div>
+
+                <!-- SOS -->
+                <div class="feature-card emergency">
+                    <div class="feature-icon">🆘</div>
+                    <h3 class="feature-title">Botão SOS</h3>
+                    <p class="feature-description">
+                        Suporte imediato em momentos de crise. Acesso rápido a técnicas de grounding, 
+                        contatos de emergência e recursos especializados.
+                    </p>
+                    <div class="feature-highlight emergency">Apoio em crises</div>
+                </div>
+
+                <!-- Lembretes -->
+                <div class="feature-card">
+                    <div class="feature-icon">⏰</div>
+                    <h3 class="feature-title">Lembretes Personalizados</h3>
+                    <p class="feature-description">
+                        Configure notificações para medicamentos, exercícios, meditação e check-ins emocionais. 
+                        Crie rotinas saudáveis com facilidade.
+                    </p>
+                </div>
+
+                <!-- Biblioteca de Conteúdo -->
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3 class="feature-title">Biblioteca de Ebooks</h3>
+                    <p class="feature-description">
+                        Acesse conteúdo especializado sobre mindfulness, ansiedade, depressão e desenvolvimento pessoal. 
+                        Conhecimento que transforma.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits" class="benefits">
+        <div class="container">
+            <div class="benefits-content">
+                <div class="benefits-text">
+                    <h2 class="benefits-title">Por que Milhares Escolhem o MindCare?</h2>
+                    
+                    <div class="benefit-item">
+                        <div class="benefit-icon">⚡</div>
+                        <div>
+                            <h3>Resultados Rápidos</h3>
+                            <p>85% dos usuários relatam melhora no humor em apenas 7 dias de uso.</p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🔬</div>
+                        <div>
+                            <h3>Baseado em Ciência</h3>
+                            <p>Desenvolvido com psicólogos e baseado em terapia cognitivo-comportamental comprovada.</p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🔒</div>
+                        <div>
+                            <h3>100% Privado e Seguro</h3>
+                            <p>Seus dados são criptografados e nunca compartilhados. Sua privacidade é nossa prioridade.</p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-item">
+                        <div class="benefit-icon">💰</div>
+                        <div>
+                            <h3>Completamente Gratuito</h3>
+                            <p>Acesso total a todas as funcionalidades sem custo. Saúde mental não deve ter preço.</p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-cta">
+                        <a href="#download" class="btn btn-primary btn-large">
+                            Começar Minha Jornada Gratuita
+                        </a>
+                    </div>
+                </div>
+
+                <div class="benefits-visual">
+                    <div class="benefits-chart">
+                        <h4>Melhoria Reportada pelos Usuários</h4>
+                        <div class="chart-bars">
+                            <div class="chart-bar">
+                                <span class="bar-label">Redução da Ansiedade</span>
+                                <div class="bar-container">
+                                    <div class="bar-fill" style="width: 78%"></div>
+                                    <span class="bar-value">78%</span>
+                                </div>
+                            </div>
+                            <div class="chart-bar">
+                                <span class="bar-label">Melhora do Humor</span>
+                                <div class="bar-container">
+                                    <div class="bar-fill" style="width: 85%"></div>
+                                    <span class="bar-value">85%</span>
+                                </div>
+                            </div>
+                            <div class="chart-bar">
+                                <span class="bar-label">Qualidade do Sono</span>
+                                <div class="bar-container">
+                                    <div class="bar-fill" style="width: 72%"></div>
+                                    <span class="bar-value">72%</span>
+                                </div>
+                            </div>
+                            <div class="chart-bar">
+                                <span class="bar-label">Autoestima</span>
+                                <div class="bar-container">
+                                    <div class="bar-fill" style="width: 81%"></div>
+                                    <span class="bar-value">81%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <h2 class="section-title">O que Nossos Usuários Dizem</h2>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">
+                        "O Dr. Ana mudou minha vida. Finalmente tenho alguém para conversar sobre minha ansiedade 24/7. 
+                        É como ter um terapeuta no bolso!"
+                    </p>
+                    <div class="testimonial-author">
+                        <strong>Maria S.</strong>
+                        <span>São Paulo, SP</span>
+                    </div>
+                </div>
+
+                <div class="testimonial-card featured-testimonial">
+                    <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">
+                        "Os exercícios de respiração me ajudaram muito com ataques de pânico. 
+                        O app é intuitivo e realmente funciona. Uso todos os dias!"
+                    </p>
+                    <div class="testimonial-author">
+                        <strong>João P.</strong>
+                        <span>Rio de Janeiro, RJ</span>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">
+                        "A gamificação me motivou a cuidar da minha saúde mental. 
+                        Ganhar estrelas por meditar virou um hábito incrível!"
+                    </p>
+                    <div class="testimonial-author">
+                        <strong>Ana L.</strong>
+                        <span>Belo Horizonte, MG</span>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">
+                        "O diário de gratidão transformou minha perspectiva. 
+                        Agora consigo ver coisas boas até nos dias mais difíceis."
+                    </p>
+                    <div class="testimonial-author">
+                        <strong>Carlos M.</strong>
+                        <span>Porto Alegre, RS</span>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">
+                        "Como psicóloga, recomendo o MindCare para meus pacientes. 
+                        É um excelente complemento à terapia tradicional."
+                    </p>
+                    <div class="testimonial-author">
+                        <strong>Dra. Patricia R.</strong>
+                        <span>Psicóloga - Brasília, DF</span>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">
+                        "O botão SOS me salvou em momentos de crise. 
+                        É reconfortante saber que sempre tenho apoio disponível."
+                    </p>
+                    <div class="testimonial-author">
+                        <strong>Rafael T.</strong>
+                        <span>Fortaleza, CE</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it Works -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">Como Funciona em 3 Passos Simples</h2>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Download e Cadastro</h3>
+                        <p>Baixe o app gratuitamente e crie sua conta em menos de 2 minutos. 
+                           Sem dados de cartão necessários.</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Avaliação Inicial</h3>
+                        <p>Responda um breve questionário para que Dr. Ana entenda melhor 
+                           suas necessidades e personalize sua experiência.</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Comece sua Jornada</h3>
+                        <p>Registre seu humor, converse com Dr. Ana, pratique exercícios 
+                           e veja sua saúde mental melhorar a cada dia!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download CTA -->
+    <section id="download" class="download-cta">
+        <div class="container">
+            <div class="download-content">
+                <h2 class="download-title">
+                    Pronto para Transformar sua Saúde Mental?
+                </h2>
+                <p class="download-subtitle">
+                    Junte-se a mais de 50.000 pessoas que já melhoraram seu bem-estar com o MindCare
+                </p>
+
+                <div class="download-buttons">
+                    <a href="#" class="btn btn-download-large" onclick="trackDownload('ios')">
+                        <img src="assets/app-store-badge.svg" alt="Download na App Store" />
+                    </a>
+                    <a href="#" class="btn btn-download-large" onclick="trackDownload('android')">
+                        <img src="assets/google-play-badge.svg" alt="Baixar no Google Play" />
+                    </a>
+                </div>
+
+                <div class="download-features">
+                    <div class="download-feature">
+                        <span class="feature-check">✅</span>
+                        <span>100% Gratuito</span>
+                    </div>
+                    <div class="download-feature">
+                        <span class="feature-check">✅</span>
+                        <span>Sem Anúncios</span>
+                    </div>
+                    <div class="download-feature">
+                        <span class="feature-check">✅</span>
+                        <span>Dados Seguros</span>
+                    </div>
+                    <div class="download-feature">
+                        <span class="feature-check">✅</span>
+                        <span>Suporte 24/7</span>
+                    </div>
+                </div>
+
+                <p class="download-note">
+                    🔒 Seus dados são 100% privados e criptografados • 📱 Funciona offline • 🆓 Sempre gratuito
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-main">
+                    <div class="footer-brand">
+                        <span class="logo">💚 MindCare</span>
+                        <p class="footer-description">
+                            Transformando vidas através da tecnologia e cuidado com a saúde mental. 
+                            Apoio disponível 24/7 para seu bem-estar emocional.
+                        </p>
+                        <div class="social-links">
+                            <a href="#" class="social-link">📘 Facebook</a>
+                            <a href="#" class="social-link">📸 Instagram</a>
+                            <a href="#" class="social-link">🐦 Twitter</a>
+                        </div>
+                    </div>
+
+                    <div class="footer-links">
+                        <div class="footer-column">
+                            <h4>Produto</h4>
+                            <ul>
+                                <li><a href="#features">Recursos</a></li>
+                                <li><a href="#benefits">Benefícios</a></li>
+                                <li><a href="#download">Download</a></li>
+                                <li><a href="#">Atualizações</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-column">
+                            <h4>Suporte</h4>
+                            <ul>
+                                <li><a href="#">Central de Ajuda</a></li>
+                                <li><a href="#">Contato</a></li>
+                                <li><a href="#">FAQ</a></li>
+                                <li><a href="#">Comunidade</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-column">
+                            <h4>Legal</h4>
+                            <ul>
+                                <li><a href="#">Privacidade</a></li>
+                                <li><a href="#">Termos de Uso</a></li>
+                                <li><a href="#">Cookies</a></li>
+                                <li><a href="#">Licenças</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">
+                    <p>&copy; 2024 MindCare. Todos os direitos reservados.</p>
+                    <p>Desenvolvido com 💚 para melhorar sua saúde mental</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
