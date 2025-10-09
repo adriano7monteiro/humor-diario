@@ -29,8 +29,11 @@ function trackDownload(platform) {
 
 // Smooth scrolling for navigation links
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('🎯 DOM loaded, initializing navigation...');
+    
     // Handle navigation clicks
     const navLinks = document.querySelectorAll('a[href^="#"]');
+    console.log('🔗 Found navigation links:', navLinks.length);
     
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
