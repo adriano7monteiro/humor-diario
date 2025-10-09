@@ -295,6 +295,37 @@ async function submitQuoteRequest(formData) {
 
 // Event listeners
 document.addEventListener('DOMContentLoaded', function() {
+    // Purchase form submission
+    document.getElementById('purchase-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const submitButton = this.querySelector('button[type="submit"]');
+        const originalText = submitButton.textContent;
+        
+        // Show loading state
+        submitButton.classList.add('loading');
+        submitButton.textContent = 'Processando...';
+        submitButton.disabled = true;
+        
+        try {
+            const formData = new FormData(this);
+            const result = await submitCorporateCheckout(formData);
+            
+            if (result.success) {
+                // Redirect to Stripe Checkout
+                window.location.href = result.checkout_url;
+            }
+        } catch (error) {
+            console.error('Purchase error:', error);
+            alert('Erro ao processar compra. Tente novamente ou entre em contato conosco.');
+        } finally {
+            // Reset button state
+            submitButton.classList.remove('loading');
+            submitButton.textContent = originalText;
+            submitButton.disabled = false;
+        }
+    });
+
     // Quote form submission
     document.getElementById('quote-form').addEventListener('submit', async function(e) {
         e.preventDefault();
